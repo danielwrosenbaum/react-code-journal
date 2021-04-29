@@ -1,5 +1,5 @@
 import React from 'react';
-import Create from './create'
+import Create from './pages/create'
 
 export default class App extends React.Component {
   constructor(props){
