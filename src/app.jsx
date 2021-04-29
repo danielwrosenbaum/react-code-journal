@@ -1,4 +1,5 @@
 import React from 'react';
+import Create from './create'
 
 export default class App extends React.Component {
   constructor(props){
@@ -9,7 +10,7 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <div>Nice Job!</div>
+      <Create />
     )
   }
 }
