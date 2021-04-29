@@ -10,7 +10,6 @@ export default class Create extends React.Component {
   render() {
     return (
       <div className="form-container">
-
         <form>
           <div className='row col-full'>
             <h1>New Entry</h1>
@@ -25,7 +24,7 @@ export default class Create extends React.Component {
                   Image Url
                 </div>
                 <div>
-                  <input required className="image col-full" type="text" name="imageURL" placeholder="Image Url" />
+                  <input required className="input col-full" type="text" name="imageURL" placeholder="Image Url" />
                 </div>
               </div>
               <div className="box">
@@ -33,7 +32,7 @@ export default class Create extends React.Component {
                   Title
                 </div>
                 <div>
-                  <input required className="title col-full" type="text" placeholder="Your Title Here" />
+                  <input required className="input col-full" type="text" placeholder="Your Title Here" />
                 </div>
               </div>
             </div>
