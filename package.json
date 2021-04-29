@@ -1,0 +1,61 @@
+{
+  "name": "react-code-journal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sever/index.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch --mode=development --devtool=source-map",
+    "start": "node server/index.js",
+    "dev": "npm-run-all --silent --parallel dev:*",
+    "dev:client": "webpack serve --mode=development",
+    "dev:server": "nodemon server/index.js",
+    "db:import": "bash scripts/db-import.bash"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.css": [
+      "stylelint --fix"
+    ],
+    "*.html": [
+      "htmlhint"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "npm-run-all": "^4.1.5",
+    "pg": "^8.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.25.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.23.2",
+    "htmlhint": "^0.14.2",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
+    "nodemon": "^2.0.7",
+    "stylelint": "^13.13.0",
+    "stylelint-config-recommended": "^5.0.0",
+    "stylelint-config-standard": "^22.0.0",
+    "webpack": "^5.36.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
