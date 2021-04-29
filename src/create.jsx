@@ -15,25 +15,21 @@ export default class Create extends React.Component {
             <h1>New Entry</h1>
           </div>
           <div className='row'>
-            <div className="col-half">
-              <img className='pic' src="./images/placeholder-image-square.jpg" alt="unknown" />
+            <div className="col-half pic-container">
+              <img className="pic" src="./images/placeholder-image-square.jpg" alt="unknown" />
             </div>
             <div className="col-half">
               <div className="box">
                 <div className="titles">
                   Image Url
                 </div>
-                <div>
-                  <input required className="input col-full" type="text" name="imageURL" placeholder="Image Url" />
-                </div>
+                <input required className="input col-full" type="text" name="imageURL" placeholder="Image Url" />
               </div>
               <div className="box">
                 <div className="titles">
                   Title
                 </div>
-                <div>
-                  <input required className="input col-full" type="text" placeholder="Your Title Here" />
-                </div>
+                <input required className="input col-full" type="text" placeholder="Your Title Here" />
               </div>
             </div>
           </div>
@@ -41,11 +37,9 @@ export default class Create extends React.Component {
             <div className="titles">
               Notes
             </div>
-            <div>
-              <textarea required className="notes col-full" rows="5" name="notes" placeholder="Add Notes!"></textarea>
-            </div>
+            <textarea required className="notes col-full" rows="5" name="notes" placeholder="Add Notes!"></textarea>
           </div>
-          <div className="button-container">
+          <div className="button-container col-full">
             <button className="cancel-button">Cancel</button>
             <button className="save-button" type="submit">Save</button>
           </div>

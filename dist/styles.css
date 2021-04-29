@@ -1,39 +1,46 @@
 * {
   box-sizing: border-box;
 }
+body {
+  margin: 0;
+}
 .row {
   display: flex;
   flex-wrap: wrap;
 }
 
-/* .col-full {
+.form-container {
   width: 100%;
 }
 
-.col-half {
-  width: 50%;
-} */
-
+.pic-container {
+  margin-bottom: 1rem;
+}
 .pic {
   width: 100%;
   height: 100%;
   border-radius: 1rem;
-  margin: 1rem;
+
 }
-.form {
+form {
   margin: 1rem;
 }
 
 .box {
-  margin: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .titles {
-  margin: 1rem;
+  margin-bottom: 1rem;
 }
 .button-container {
-  margin: 0 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 .input, .notes {
-  margin: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.notes {
+  margin-right: 1rem;
 }
