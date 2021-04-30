@@ -11,6 +11,7 @@ export default class Create extends React.Component {
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleUrl(event) {
@@ -25,11 +26,33 @@ export default class Create extends React.Component {
     this.setState({notes: event.target.value})
   }
 
+  handleSubmit(){
+    event.preventDefault();
+    const {photoUrl, title, notes } = this.state
+    console.log(photoUrl, title, notes)
+    const entry = {
+      photoUrl,
+      title,
+      notes
+    }
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(entry)
+    };
+    fetch(`/api/codeJournal`, req)
+      .then(res => res.json())
+      .then(result => {
+        console.log(result)
+      })
+  }
   render() {
     const {photoUrl} = this.state;
     return (
       <div className="form-container">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className='row col-full'>
             <h1>New Entry</h1>
           </div>
@@ -60,7 +83,7 @@ export default class Create extends React.Component {
           </div>
           <div className="button-container col-full">
             <button className="cancel-button">Cancel</button>
-            <button className="save-button" type="submit">Save</button>
+            <button className="save-button" type="submit" >Save</button>
           </div>
         </form>
       </div>
