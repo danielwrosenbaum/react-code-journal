@@ -8,9 +8,9 @@ create schema "public";
 
 create table "public"."journal" (
   "entryId"             serial,
-  "createdAt"           timestamp not null default now(),
   "title"               text,
   "photoUrl"            text,
   "notes"               text,
+  "createdAt"           timestamptz(6) not null default now(),
   primary key ("entryId")
 );
