@@ -4,13 +4,15 @@ export default class Create extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      photoUrl: "./images/placeholder-image-square.jpg",
-      title: null,
-      notes: null
+      photoUrl: '',
+      title: '',
+      notes: ''
     }
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleUrl(event) {
@@ -24,31 +26,66 @@ export default class Create extends React.Component {
   handleNotes(event) {
     this.setState({notes: event.target.value})
   }
+  handleCancel() {
+    this.setState({
+      photoUrl: '',
+      title: '',
+      notes: ''
+    })
+  }
 
+  handleSubmit(){
+    event.preventDefault();
+    const {photoUrl, title, notes } = this.state
+    console.log(photoUrl, title, notes)
+    const entry = {
+      photoUrl,
+      title,
+      notes
+    }
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(entry)
+    };
+    fetch(`/api/codeJournal`, req)
+      .then(res => res.json())
+      .then(result => {
+        console.log(result)
+      })
+    this.setState({
+      photoUrl: '',
+      title: '',
+      notes: ''
+    })
+  }
   render() {
     const {photoUrl} = this.state;
+    const placeholder = "./images/placeholder-image-square.jpg"
     return (
       <div className="form-container">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className='row col-full'>
             <h1>New Entry</h1>
           </div>
           <div className='row'>
             <div className="col-half pic-container">
-              <img className="pic" src={photoUrl} alt="unknown" />
+              <img className="pic" src={(photoUrl) ? photoUrl : placeholder} alt="unknown" />
             </div>
             <div className="col-half">
               <div className="box">
                 <div className="titles">
                   Image Url
                 </div>
-                <input required className="input col-full" type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
+                <input required className="input col-full" value={this.state.photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
               </div>
               <div className="box">
                 <div className="titles">
                   Title
                 </div>
-                <input required className="input col-full" type="text" placeholder="Your Title Here" onChange={this.handleTitle} />
+                <input required className="input col-full" type="text" value={this.state.title} placeholder="Your Title Here" onChange={this.handleTitle} />
               </div>
             </div>
           </div>
@@ -56,11 +93,11 @@ export default class Create extends React.Component {
             <div className="titles">
               Notes
             </div>
-            <textarea required className="notes col-full" rows="5" name="notes" placeholder="Add Notes!" onChange={this.handleNotes} />
+            <textarea required className="notes col-full" rows="5" name="notes" value={this.state.notes} placeholder="Add Notes!" onChange={this.handleNotes} />
           </div>
           <div className="button-container col-full">
-            <button className="cancel-button">Cancel</button>
-            <button className="save-button" type="submit">Save</button>
+            <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
+            <button className="save-button" type="submit"  >Save</button>
           </div>
         </form>
       </div>
