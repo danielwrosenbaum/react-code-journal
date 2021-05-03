@@ -1,6 +1,7 @@
 
 import React from 'react';
 import parseRoute from '../../Final-Project/client/lib/parse-route';
+import Navbar from './components/nav-bar';
 import PageContainer from './components/page-container';
 import Create from './pages/create';
 import Entries from './pages/entries';
@@ -33,9 +34,12 @@ export default class App extends React.Component {
   render() {
     // const { route } = this.state;
     return (
+      <>
+      <Navbar />
       <PageContainer>
         {this.renderPage()}
       </PageContainer>
+      </>
     );
   }
 }
