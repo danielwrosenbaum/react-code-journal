@@ -7,7 +7,7 @@ export default class Create extends React.Component {
       photoUrl: '',
       title: '',
       notes: ''
-    }
+    };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -16,33 +16,34 @@ export default class Create extends React.Component {
   }
 
   handleUrl(event) {
-    this.setState({photoUrl: event.target.value})
+    this.setState({ photoUrl: event.target.value });
   }
 
   handleTitle(event) {
-    this.setState({title: event.target.value})
+    this.setState({ title: event.target.value });
   }
 
   handleNotes(event) {
-    this.setState({notes: event.target.value})
+    this.setState({ notes: event.target.value });
   }
+
   handleCancel() {
     this.setState({
       photoUrl: '',
       title: '',
       notes: ''
-    })
+    });
   }
 
-  handleSubmit(){
+  handleSubmit() {
     event.preventDefault();
-    const {photoUrl, title, notes } = this.state
-    console.log(photoUrl, title, notes)
+    const { photoUrl, title, notes } = this.state;
+    console.log(photoUrl, title, notes);
     const entry = {
       photoUrl,
       title,
       notes
-    }
+    };
     const req = {
       method: 'POST',
       headers: {
@@ -50,20 +51,21 @@ export default class Create extends React.Component {
       },
       body: JSON.stringify(entry)
     };
-    fetch(`/api/codeJournal`, req)
+    fetch('/api/codeJournal', req)
       .then(res => res.json())
       .then(result => {
-        console.log(result)
-      })
+        console.log(result);
+      });
     this.setState({
       photoUrl: '',
       title: '',
       notes: ''
-    })
+    });
   }
+
   render() {
-    const {photoUrl} = this.state;
-    const placeholder = "./images/placeholder-image-square.jpg"
+    const { photoUrl } = this.state;
+    const placeholder = './images/placeholder-image-square.jpg';
     return (
       <div className="form-container">
         <form onSubmit={this.handleSubmit}>
@@ -72,7 +74,7 @@ export default class Create extends React.Component {
           </div>
           <div className='row'>
             <div className="col-half pic-container">
-              <img className="pic" src={(photoUrl) ? photoUrl : placeholder} alt="unknown" />
+              <img className="pic" src={(photoUrl) || placeholder} alt="unknown" />
             </div>
             <div className="col-half">
               <div className="box">
@@ -97,10 +99,10 @@ export default class Create extends React.Component {
           </div>
           <div className="button-container col-full">
             <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
-            <button className="save-button" type="submit"  >Save</button>
+            <button className="save-button" type="submit" >Save</button>
           </div>
         </form>
       </div>
-    )
+    );
   }
 }
