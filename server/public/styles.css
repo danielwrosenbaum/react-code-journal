@@ -28,9 +28,16 @@ body {
 .form-container {
   width: 100%;
 }
+.entries-title {
+  margin: 1rem;
 
+}
 .pic-container {
   margin-bottom: 1rem;
+}
+.entry-card {
+  margin: 1rem 1rem 2rem 1rem;
+
 }
 .pic {
   width: 100%;

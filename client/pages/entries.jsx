@@ -39,6 +39,7 @@ export default class Entries extends React.Component {
             const photoUrl = entry.photoUrl;
             const notes = entry.notes;
             const createdAt = entry.createdAt;
+
             return (
               <div key={index} className="entry-card">
                 <div className='row'>
@@ -64,6 +65,7 @@ export default class Entries extends React.Component {
     );
     return (
       <div className="entry-page">
+        <h1 className="entries-title">Entries</h1>
         {entryResults}
       </div>
     );
