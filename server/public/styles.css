@@ -4,6 +4,22 @@
 body {
   margin: 0;
 }
+.navbar {
+  background-color: #9fd8df;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+  text-decoration: none;
+  outline: none;
+
+}
+.navbar-title,
+.navbar-entries {
+  text-decoration: none;
+  color: white;
+}
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -12,9 +28,16 @@ body {
 .form-container {
   width: 100%;
 }
+.entries-title {
+  margin: 1rem;
 
+}
 .pic-container {
   margin-bottom: 1rem;
+}
+.entry-card {
+  margin: 1rem 1rem 2rem 1rem;
+
 }
 .pic {
   width: 100%;
