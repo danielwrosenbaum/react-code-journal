@@ -4,6 +4,22 @@
 body {
   margin: 0;
 }
+.navbar {
+  background-color: #9fd8df;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+  text-decoration: none;
+  outline: none;
+
+}
+.navbar-title,
+.navbar-entries {
+  text-decoration: none;
+  color: white;
+}
 .row {
   display: flex;
   flex-wrap: wrap;
