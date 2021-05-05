@@ -5,7 +5,8 @@ export default class Entries extends React.Component {
     super(props);
     this.state = {
       result: null,
-      isLoading: true
+      isLoading: true,
+      editEntry: null
 
     };
     this.handleClick = this.handleClick.bind(this);
@@ -26,8 +27,8 @@ export default class Entries extends React.Component {
       });
   }
 
-  handleClick() {
-    console.log(event.target.id);
+  handleClick(entry) {
+    console.log(entry);
   }
 
   render() {
@@ -45,6 +46,13 @@ export default class Entries extends React.Component {
             const notes = entry.notes;
             const createdAt = entry.createdAt;
             const entryId = entry.entryId;
+            const entrySend = {
+              title,
+              photoUrl,
+              notes,
+              entryId
+            };
+            console.log('send:', entrySend);
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -59,8 +67,8 @@ export default class Entries extends React.Component {
                       <p>{notes}</p>
                     </div>
                   </div>
-                  <div className="row col-five edit-icon">
-                    <i id={entryId} className="far fa-edit" onClick={this.handleClick}></i>
+                  <div className="row col-five edit-icon" >
+                    <i id={entryId} className="far fa-edit" onClick={() => this.handleClick(entrySend)}></i>
                     </div>
                 </div>
               </div>
