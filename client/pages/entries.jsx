@@ -8,6 +8,7 @@ export default class Entries extends React.Component {
       isLoading: true
 
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +26,10 @@ export default class Entries extends React.Component {
       });
   }
 
+  handleClick() {
+    console.log(event.target.id);
+  }
+
   render() {
     const { result } = this.state;
     if (!result) return null;
@@ -40,8 +45,6 @@ export default class Entries extends React.Component {
             const notes = entry.notes;
             const createdAt = entry.createdAt;
             const entryId = entry.entryId;
-            console.log(entryId);
-
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -55,9 +58,10 @@ export default class Entries extends React.Component {
                     <div className="row">
                       <p>{notes}</p>
                     </div>
-
                   </div>
-                  <div className="row col-five"><i className="far fa-edit"></i></div>
+                  <div className="row col-five edit-icon">
+                    <i id={entryId} className="far fa-edit" onClick={this.handleClick}></i>
+                    </div>
                 </div>
               </div>
             );
