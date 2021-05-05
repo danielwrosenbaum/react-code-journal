@@ -29,6 +29,9 @@ export default class Entries extends React.Component {
 
   handleClick(entry) {
     console.log(entry);
+    const { entryId } = entry;
+    console.log(entryId);
+    this.setState({ editEntry: entry });
   }
 
   render() {
@@ -46,13 +49,6 @@ export default class Entries extends React.Component {
             const notes = entry.notes;
             const createdAt = entry.createdAt;
             const entryId = entry.entryId;
-            const entrySend = {
-              title,
-              photoUrl,
-              notes,
-              entryId
-            };
-            console.log('send:', entrySend);
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -68,7 +64,7 @@ export default class Entries extends React.Component {
                     </div>
                   </div>
                   <div className="row col-five edit-icon" >
-                    <i id={entryId} className="far fa-edit" onClick={() => this.handleClick(entrySend)}></i>
+                    <i id={entryId} className="far fa-edit" onClick={() => this.handleClick(entry)}></i>
                     </div>
                 </div>
               </div>
