@@ -1,6 +1,9 @@
 .col-full,
 .col-half {
-  width: 100%;
+  width: 95%;
+}
+.col-ten {
+  width: 5%;
 }
 
 @media screen and (min-width: 768px) {
@@ -15,6 +18,6 @@
   }
 
   .col-half {
-    width: 50%;
+    width: 47.5%;
   }
 }

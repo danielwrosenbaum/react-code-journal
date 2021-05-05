@@ -39,9 +39,11 @@ export default class Entries extends React.Component {
             const photoUrl = entry.photoUrl;
             const notes = entry.notes;
             const createdAt = entry.createdAt;
+            const entryId = entry.entryId;
+            console.log(entryId);
 
             return (
-              <div key={index} className="entry-card">
+              <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
                   <div className="col-half pic-container">
                     <img className="pic" src={photoUrl} alt={title} />
@@ -53,7 +55,9 @@ export default class Entries extends React.Component {
                     <div className="row">
                       <p>{notes}</p>
                     </div>
+
                   </div>
+                  <div className="row col-five"><i className="far fa-edit"></i></div>
                 </div>
               </div>
             );
