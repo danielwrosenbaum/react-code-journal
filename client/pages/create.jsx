@@ -38,7 +38,6 @@ export default class Create extends React.Component {
   handleSubmit() {
     event.preventDefault();
     const { photoUrl, title, notes } = this.state;
-    console.log(photoUrl, title, notes);
     const entry = {
       photoUrl,
       title,
@@ -54,13 +53,13 @@ export default class Create extends React.Component {
     fetch('/api/codeJournal', req)
       .then(res => res.json())
       .then(result => {
-        console.log(result);
+        this.setState({
+          photoUrl: '',
+          title: '',
+          notes: ''
+        });
       });
-    this.setState({
-      photoUrl: '',
-      title: '',
-      notes: ''
-    });
+
   }
 
   render() {

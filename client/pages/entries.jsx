@@ -1,4 +1,5 @@
 import React from 'react';
+import Edit from './edit';
 
 export default class Entries extends React.Component {
   constructor(props) {
@@ -20,7 +21,6 @@ export default class Entries extends React.Component {
           result,
           isLoading: false
         });
-        console.log(result);
       })
       .catch(error => {
         console.error(error);
@@ -28,14 +28,15 @@ export default class Entries extends React.Component {
   }
 
   handleClick(entry) {
-    console.log(entry);
-    const { entryId } = entry;
-    console.log(entryId);
     this.setState({ editEntry: entry });
+
   }
 
   render() {
-    const { result } = this.state;
+    const { result, editEntry } = this.state;
+    if (editEntry) {
+      return <Edit data={editEntry} />;
+    }
     if (!result) return null;
     const entries = result;
     const entryResults = (
@@ -47,7 +48,6 @@ export default class Entries extends React.Component {
             const title = entry.title;
             const photoUrl = entry.photoUrl;
             const notes = entry.notes;
-            const createdAt = entry.createdAt;
             const entryId = entry.entryId;
             return (
               <div key={index} id={entryId} className="entry-card">
