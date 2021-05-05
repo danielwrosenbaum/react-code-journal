@@ -1,18 +1,21 @@
 import React from 'react';
+import Entries from './entries';
 
-export default class Create extends React.Component {
+export default class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      photoUrl: '',
-      title: '',
-      notes: ''
+      photoUrl: this.props.data.photoUrl,
+      title: this.props.data.title,
+      notes: this.props.data.notes,
+      entryId: this.props.data.entryId,
+      edited: false
+
     };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
+    this.handleEditSubmit = this.handleEditSubmit.bind(this);
   }
 
   handleUrl(event) {
@@ -28,65 +31,57 @@ export default class Create extends React.Component {
   }
 
   handleCancel() {
-    this.setState({
-      photoUrl: '',
-      title: '',
-      notes: ''
-    });
+    return <Entries />;
   }
 
-  handleSubmit() {
+  handleEditSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes } = this.state;
+    const { photoUrl, title, notes, entryId } = this.state;
     const entry = {
       photoUrl,
       title,
       notes
     };
     const req = {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(entry)
     };
-    fetch('/api/codeJournal', req)
+    fetch(`/api/codeJournal/${entryId}`, req)
       .then(res => res.json())
       .then(result => {
-        this.setState({
-          photoUrl: '',
-          title: '',
-          notes: ''
-        });
+        this.setState({ edited: true });
       });
 
   }
 
   render() {
-    const { photoUrl } = this.state;
-    const placeholder = './images/placeholder-image-square.jpg';
+    const { photoUrl, title, notes, edited } = this.state;
+    if (edited) return <Entries />;
     return (
       <div className="form-container">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleEditSubmit}>
           <div className='row col-full'>
             <h1>New Entry</h1>
           </div>
           <div className='row'>
             <div className="col-half pic-container">
-              <img className="pic" src={(photoUrl) || placeholder} alt="unknown" />
+              <img className="pic" src={photoUrl} alt={title} />
             </div>
             <div className="col-half">
               <div className="box">
                 <div className="titles">
                   Image Url
                 </div>
-                <input required className="input col-full" value={this.state.photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
+                <input required className="input col-full" value={photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
               </div>
               <div className="box">
                 <div className="titles">
                   Title
                 </div>
-                <input required className="input col-full" type="text" value={this.state.title} placeholder="Your Title Here" onChange={this.handleTitle} />
+                <input required className="input col-full" type="text" value={title} placeholder="Your Title Here" onChange={this.handleTitle} />
               </div>
             </div>
           </div>
@@ -94,7 +89,7 @@ export default class Create extends React.Component {
             <div className="titles">
               Notes
             </div>
-            <textarea required className="notes col-full" rows="5" name="notes" value={this.state.notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+            <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
           </div>
           <div className="button-container col-full">
             <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>

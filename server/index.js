@@ -36,6 +36,26 @@ app.post('/api/codeJournal', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+app.put('/api/codeJournal/:entryId', (req, res, next) => {
+  const entryId = req.params.entryId;
+  const { photoUrl, title, notes } = req.body;
+  const sql = `
+  update "journal"
+    set "photoUrl" = $1,
+        "title" = $2,
+        "notes" = $3
+    where "entryId" = $4
+    returning *
+  `;
+  const params = [photoUrl, title, notes, entryId];
+  db.query(sql, params)
+    .then(result => {
+      const [entry] = result.rows;
+      res.status(201).json(entry);
+    })
+    .catch(err => next(err));
+});
 app.listen(process.env.PORT, () => {
   console.log(`express server listening on port ${process.env.PORT}`);
 });
