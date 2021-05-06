@@ -7,7 +7,6 @@ body {
 
 .navbar {
   background: linear-gradient(-150deg, #d6e6f2 0%, #769fcd 100%);
-  /* background-color: #769fcd; */
 }
 .nav-container {
   display: flex;
@@ -18,9 +17,7 @@ body {
   align-items: center;
   height: 3rem;
 }
-/* .page-container {
-  margin-bottom: 1rem;
-} */
+
 .navbar-title,
 .navbar-entries {
   text-decoration: none;
@@ -47,10 +44,8 @@ body {
   min-height: 100vh;
   height: 100%;
   padding: 1rem;
-  /* background: linear-gradient(#f7fbfc 0%, #d6e6f2 100%); */
   background-color: #f7fbfc;
   font-family: 'Fira Sans', sans-serif;
-  /* margin-bottom: 1rem; */
 }
 .form-container {
   width: 100%;
@@ -73,14 +68,13 @@ body {
   display: flex;
   justify-content: space-evenly;
   background: linear-gradient(-120deg, #f7fbfc 25%, #d6e6f2 100%);
-  /* background-color: #d6e6f2; */
 
 }
 .pic {
   width: 100%;
   height: 100%;
   border-radius: 1rem;
-  box-shadow: 0px 2px 5px #769fcd;
+  box-shadow: 0px 3px 7px #769fcd;
 
 }
 
@@ -100,7 +94,7 @@ body {
 .input, .notes, button {
   margin-bottom: 0.5rem;
   border-radius: 0.25rem;
-  box-shadow: 0px 1px 2px #769fcd;
+  box-shadow: 0px 2px 3px #769fcd;
   border: 0.25px solid #769fcd;
 }
 
@@ -119,7 +113,6 @@ body {
 .pop-up {
   position: fixed;
   width: 300px;
-  /* height: auto; */
   top: 25%;
   left: 0;
   right: 0;
@@ -134,5 +127,6 @@ display: flex;
 justify-content: space-between;
 }
   .edit-icon {
-    /* margin-right: 0.5rem; */
+  color: #769fcd;
+
   }

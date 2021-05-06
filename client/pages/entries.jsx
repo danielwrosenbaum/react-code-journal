@@ -60,8 +60,8 @@ export default class Entries extends React.Component {
                   <div className="col-half info-container">
                     <div className="row">
                       <div className="two col-fortyfive">{title}</div>
-                      <div className="col-five edit-icon">
-                        <i id={entryId} className="far fa-edit" onClick={() => this.handleClick(entry)}></i>
+                      <div className="col-five ">
+                        <i id={entryId} className="edit-icon far fa-edit" onClick={() => this.handleClick(entry)}></i>
                       </div>
                     </div>
                     <div className="row">
