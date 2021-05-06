@@ -1,14 +1,18 @@
 import React from 'react';
 import Entries from './entries';
+import parseRoute from '../lib/parse-route';
 
 export default class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      photoUrl: this.props.data.photoUrl,
-      title: this.props.data.title,
-      notes: this.props.data.notes,
-      entryId: this.props.data.entryId,
+      photoUrl: '',
+      notes: '',
+      title: '',
+      route: parseRoute(window.location.hash),
+      entryId: null,
+      isDeleteClicked: false,
+      deleted: false,
       edited: false
 
     };
@@ -16,6 +20,34 @@ export default class Edit extends React.Component {
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+
+  componentDidMount() {
+    const searchTerms = this.state.route.params;
+    function getParams() {
+      const newArr = [];
+      for (const term of searchTerms) {
+        newArr.push(term[1]);
+      }
+      return newArr;
+    }
+    const query = getParams();
+    fetch(`/api/codeJournal/${query}`)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          photoUrl: result.photoUrl,
+          notes: result.notes,
+          title: result.title,
+          entryId: result.entryId
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   handleUrl(event) {
@@ -30,8 +62,41 @@ export default class Edit extends React.Component {
     this.setState({ notes: event.target.value });
   }
 
-  handleCancel() {
-    return <Entries />;
+  handleDeleteClicked() {
+    this.setState({ isDeleteClicked: true });
+  }
+
+  handleDelete() {
+    const { entryId } = this.state;
+    const req = {
+      method: 'DELETE'
+    };
+    fetch(`/api/codeJournal/${entryId}`, req)
+      .then(result => {
+        this.setState({
+          isDeleteClicked: false,
+          deleted: true
+        });
+        window.location.hash = '#entries';
+      })
+      .catch(error => console.error(error));
+  }
+
+  deleteModal() {
+    const { isDeleteClicked } = this.state;
+    if (isDeleteClicked) {
+      return (
+      <div className="overlay">
+        <div className="pop-up">
+          <h3>Are You Sure You Want to Delete This Entry?</h3>
+          <div className="delete-button-container">
+            <button onClick={this.handleCancel}>Cancel</button>
+              <button onClick={this.handleDelete}>Delete</button>
+          </div>
+        </div>
+      </div>
+      );
+    }
   }
 
   handleEditSubmit() {
@@ -53,13 +118,16 @@ export default class Edit extends React.Component {
       .then(res => res.json())
       .then(result => {
         this.setState({ edited: true });
+        window.location.hash = '#entries';
       });
-
   }
 
-  render() {
-    const { photoUrl, title, notes, edited } = this.state;
-    if (edited) return <Entries />;
+  handleCancel() {
+    this.setState({ isDeleteClicked: false });
+  }
+
+  renderForm() {
+    const { photoUrl, title, notes } = this.state;
     return (
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
@@ -92,11 +160,27 @@ export default class Edit extends React.Component {
             <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
           </div>
           <div className="button-container col-full">
-            <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
+            <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
             <button className="save-button" type="submit" >Save</button>
           </div>
         </form>
       </div>
+
+    );
+  }
+
+  render() {
+    const { edited, deleted } = this.state;
+    if (edited) return <Entries />;
+    if (deleted) return <Entries />;
+    // if (deleteEntry) return this.deleteModal();
+    return (
+      <div className="edit-page">
+        {this.deleteModal()}
+        {this.renderForm()}
+
+      </div>
+
     );
   }
 }

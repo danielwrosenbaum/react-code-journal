@@ -1,5 +1,4 @@
 import React from 'react';
-import Edit from './edit';
 
 export default class Entries extends React.Component {
   constructor(props) {
@@ -28,15 +27,18 @@ export default class Entries extends React.Component {
   }
 
   handleClick(entry) {
+    event.preventDefault();
     this.setState({ editEntry: entry });
+    const { editEntry } = this.state;
+    if (editEntry) {
+      const { entryId } = this.state.editEntry;
+      window.location.hash = `#edit?=${entryId}`;
+    }
 
   }
 
   render() {
-    const { result, editEntry } = this.state;
-    if (editEntry) {
-      return <Edit data={editEntry} />;
-    }
+    const { result } = this.state;
     if (!result) return null;
     const entries = result;
     const entryResults = (
@@ -57,13 +59,13 @@ export default class Entries extends React.Component {
                   </div>
                   <div className="col-half info-container">
                     <div className="row">
-                      <h2>{title}</h2>
+                      <div className="two">{title}</div>
                     </div>
                     <div className="row">
                       <p>{notes}</p>
                     </div>
                   </div>
-                  <div className="row col-five edit-icon" >
+                  <div className="col-five edit-icon">
                     <i id={entryId} className="far fa-edit" onClick={() => this.handleClick(entry)}></i>
                     </div>
                 </div>
@@ -73,7 +75,6 @@ export default class Entries extends React.Component {
           })
         }
       </div>
-
     );
     return (
       <div className="entry-page">

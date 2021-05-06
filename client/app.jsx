@@ -5,6 +5,7 @@ import Navbar from './components/nav-bar';
 import PageContainer from './components/page-container';
 import Create from './pages/create';
 import Entries from './pages/entries';
+import Edit from './pages/edit';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,11 +24,15 @@ export default class App extends React.Component {
 
   renderPage() {
     const { route } = this.state;
+    console.log('route path', route.path);
     if (route.path === '' || route.path === 'create') {
       return <Create />;
     }
     if (route.path === 'entries') {
       return <Entries />;
+    }
+    if (route.path === 'edit') {
+      return <Edit />;
     }
   }
 
