@@ -6,11 +6,11 @@ export default class Navbar extends React.Component {
       <nav className="navbar">
         <div className="nav-container">
           <a className="navbar-title" href="#">
-            <h1>CodeJournal</h1>
+            <div className="one">CodeJournal</div>
           </a>
           <div>
             <a className="navbar-entries" href="#entries">
-              <h2>Entries</h2>
+              <div className="two">Entries</div>
             </a>
           </div>
         </div>
