@@ -22,6 +22,7 @@ export default class Edit extends React.Component {
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   componentDidMount() {
@@ -76,7 +77,6 @@ export default class Edit extends React.Component {
           isDeleteClicked: false,
           deleted: true
         });
-        // return <Entries />;
       })
       .catch(error => console.error(error));
   }
@@ -89,7 +89,7 @@ export default class Edit extends React.Component {
         <div className="pop-up">
           <h3>Are You Sure You Want to Delete This Entry?</h3>
           <div className="delete-button-container">
-            <button >Cancel</button>
+            <button onClick={this.handleCancel}>Cancel</button>
               <button onClick={this.handleDelete}>Delete</button>
           </div>
         </div>
@@ -118,6 +118,10 @@ export default class Edit extends React.Component {
       .then(result => {
         this.setState({ edited: true });
       });
+  }
+
+  handleCancel() {
+    this.setState({ isDeleteClicked: false });
   }
 
   renderForm() {
