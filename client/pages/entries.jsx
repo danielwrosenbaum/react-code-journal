@@ -40,10 +40,7 @@ export default class Entries extends React.Component {
   }
 
   render() {
-    const { result, editEntry } = this.state;
-    // if (editEntry) {
-    //   return <Edit data={editEntry} />;
-    // }
+    const { result } = this.state;
     if (!result) return null;
     const entries = result;
     const entryResults = (

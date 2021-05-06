@@ -11,7 +11,8 @@ export default class Edit extends React.Component {
       title: '',
       route: parseRoute(window.location.hash),
       entryId: null,
-      deleteEntry: false,
+      isDeleteClicked: false,
+      deleted: false,
       edited: false
 
     };
@@ -42,8 +43,10 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId
         });
-      }
-      );
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   handleUrl(event) {
@@ -59,33 +62,35 @@ export default class Edit extends React.Component {
   }
 
   handleDeleteClicked() {
-    this.setState({ deleteEntry: true });
+    this.setState({ isDeleteClicked: true });
   }
 
   handleDelete() {
     const { entryId } = this.state;
-    // this.setState({ deleteEntry: false });
     const req = {
       method: 'DELETE'
     };
     fetch(`/api/codeJournal/${entryId}`, req)
       .then(result => {
-        this.setState({ deleteEntry: false });
-        return result;
+        this.setState({
+          isDeleteClicked: false,
+          deleted: true
+        });
+        // return <Entries />;
       })
       .catch(error => console.error(error));
   }
 
   deleteModal() {
-    const { deleteEntry } = this.state;
-    if (deleteEntry) {
+    const { isDeleteClicked } = this.state;
+    if (isDeleteClicked) {
       return (
       <div className="overlay">
         <div className="pop-up">
           <h3>Are You Sure You Want to Delete This Entry?</h3>
           <div className="delete-button-container">
-            <button onClick={this.handleDelete}>Cancel</button>
-            <button>Delete</button>
+            <button >Cancel</button>
+              <button onClick={this.handleDelete}>Delete</button>
           </div>
         </div>
       </div>
@@ -159,8 +164,9 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    const { edited, photoUrl, notes, title, deleteEntry } = this.state;
+    const { edited, deleted } = this.state;
     if (edited) return <Entries />;
+    if (deleted) return <Entries />;
     // if (deleteEntry) return this.deleteModal();
     return (
       <div className="edit-page">
