@@ -70,7 +70,7 @@ export default class Create extends React.Component {
         <div className="form-container">
           <form onSubmit={this.handleSubmit}>
             <div className='row col-full'>
-              <h1>New Entry</h1>
+              <div className="one">New Entry</div>
             </div>
             <div className='row'>
               <div className="col-half pic-container">

@@ -2,11 +2,11 @@
 .col-half {
   width: 100%;
 }
+.col-fortyfive {
+  width: 95%;
+}
 .col-five {
   width: 5%;
-}
-.row {
-  flex-wrap: wrap;
 }
 
 
@@ -18,20 +18,15 @@
   .row {
     flex-wrap: nowrap;
   }
-
-  /* .col-full,
-  .col-half {
-    padding: 0 0.75rem;
-  } */
-  /* .edit-icon {
-    margin-right: 0rem;
-  } */
   .col-five {
     width: 2.5%;
   }
 
-
   .col-half {
-    width: 47.5%;
+    width: 50%;
+    align-self: flex-start;
+  }
+  .edit-icon {
+    font-size: 1.5rem;
   }
 }

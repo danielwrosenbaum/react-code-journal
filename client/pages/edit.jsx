@@ -132,7 +132,7 @@ export default class Edit extends React.Component {
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
           <div className='row col-full'>
-            <h1>New Entry</h1>
+            <div className="one">New Entry</div>
           </div>
           <div className='row'>
             <div className="col-half pic-container">
@@ -173,7 +173,6 @@ export default class Edit extends React.Component {
     const { edited, deleted } = this.state;
     if (edited) return <Entries />;
     if (deleted) return <Entries />;
-    // if (deleteEntry) return this.deleteModal();
     return (
       <div className="edit-page">
         {this.deleteModal()}

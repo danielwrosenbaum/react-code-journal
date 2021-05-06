@@ -94,5 +94,6 @@ app.delete('/api/codeJournal/:entryId', (req, res, next) => {
     .catch(err => next(err));
 });
 app.listen(process.env.PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
 });
