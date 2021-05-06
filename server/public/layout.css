@@ -1,21 +1,35 @@
 .col-full,
 .col-half {
-  width: 95%;
+  width: 100%;
 }
-.col-ten {
+.col-five {
   width: 5%;
 }
+.row {
+  flex-wrap: wrap;
+}
+
 
 @media screen and (min-width: 768px) {
   .container,
   .nav-bar {
     max-width: 900px;
   }
+  .row {
+    flex-wrap: nowrap;
+  }
 
-  .col-full,
+  /* .col-full,
   .col-half {
     padding: 0 0.75rem;
+  } */
+  /* .edit-icon {
+    margin-right: 0rem;
+  } */
+  .col-five {
+    width: 2.5%;
   }
+
 
   .col-half {
     width: 47.5%;

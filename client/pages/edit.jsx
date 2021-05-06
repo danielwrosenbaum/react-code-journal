@@ -77,6 +77,7 @@ export default class Edit extends React.Component {
           isDeleteClicked: false,
           deleted: true
         });
+        window.location.hash = '#entries';
       })
       .catch(error => console.error(error));
   }
@@ -117,6 +118,7 @@ export default class Edit extends React.Component {
       .then(res => res.json())
       .then(result => {
         this.setState({ edited: true });
+        window.location.hash = '#entries';
       });
   }
 
