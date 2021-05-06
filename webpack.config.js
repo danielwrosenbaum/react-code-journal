@@ -1,5 +1,4 @@
 require('dotenv/config');
-const webpack = require('webpack');
 const path = require('path');
 
 const clientPath = path.join(__dirname, 'client');
