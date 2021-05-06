@@ -24,6 +24,7 @@ export default class App extends React.Component {
 
   renderPage() {
     const { route } = this.state;
+    console.log('route path', route.path);
     if (route.path === '' || route.path === 'create') {
       return <Create />;
     }

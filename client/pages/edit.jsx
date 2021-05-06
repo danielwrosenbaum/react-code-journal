@@ -19,6 +19,7 @@ export default class Edit extends React.Component {
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -97,15 +98,12 @@ export default class Edit extends React.Component {
       .then(result => {
         this.setState({ edited: true });
       });
-
   }
 
-  render() {
-    const { edited, photoUrl, notes, title } = this.state;
-    if (edited) return <Entries />;
+  renderForm() {
+    const { photoUrl, title, notes } = this.state;
     return (
       <div className="form-container">
-        {this.deleteModal()}
         <form onSubmit={this.handleEditSubmit}>
           <div className='row col-full'>
             <h1>New Entry</h1>
@@ -136,11 +134,26 @@ export default class Edit extends React.Component {
             <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
           </div>
           <div className="button-container col-full">
-            <button className="delete-button" onClick={this.handleDelete}>Delete Entry</button>
+            <button className="delete-button" type="button" onClick={this.handleDelete}>Delete Entry</button>
             <button className="save-button" type="submit" >Save</button>
           </div>
         </form>
       </div>
+
+    );
+  }
+
+  render() {
+    const { edited, photoUrl, notes, title, deleteEntry } = this.state;
+    if (edited) return <Entries />;
+    // if (deleteEntry) return this.deleteModal();
+    return (
+      <div className="edit-page">
+        {this.deleteModal()}
+        {this.renderForm()}
+
+      </div>
+
     );
   }
 }

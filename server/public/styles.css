@@ -24,7 +24,13 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
-
+.edit-page,
+.create-page,
+.entries-page {
+  width: 100%;
+  height: 100vh;
+  /* position: relative; */
+}
 .form-container {
   width: 100%;
 }
@@ -76,4 +82,17 @@ form {
   height: 100vh;
   width: 100%;
   position: fixed;
+}
+
+.pop-up {
+  position: fixed;
+  width: 20%;
+  height: 25%;
+  top: 25%;
+  left: 40%;
+  text-align: center;
+}
+.delete-button-container {
+display: flex;
+justify-content: space-between;
 }

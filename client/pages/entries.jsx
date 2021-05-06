@@ -80,7 +80,6 @@ export default class Entries extends React.Component {
           })
         }
       </div>
-
     );
     return (
       <div className="entry-page">
