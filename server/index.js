@@ -22,6 +22,21 @@ app.get('/api/codeJournal', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/codeJournal/:entryId', (req, res, next) => {
+  const entryId = req.params.entryId;
+  const sql = `
+  select *
+    from "journal"
+    where "entryId" = $1
+  `;
+  const params = [entryId];
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/codeJournal', (req, res, next) => {
   const { photoUrl, title, notes } = req.body;
   const sql = `

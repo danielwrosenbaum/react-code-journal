@@ -1,14 +1,17 @@
 import React from 'react';
 import Entries from './entries';
+import parseRoute from '../lib/parse-route';
 
 export default class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      photoUrl: this.props.data.photoUrl,
-      title: this.props.data.title,
-      notes: this.props.data.notes,
-      entryId: this.props.data.entryId,
+      photoUrl: '',
+      notes: '',
+      title: '',
+      route: parseRoute(window.location.hash),
+      entryId: null,
+      deleteEntry: false,
       edited: false
 
     };
@@ -16,6 +19,29 @@ export default class Edit extends React.Component {
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const searchTerms = this.state.route.params;
+    function getParams() {
+      const newArr = [];
+      for (const term of searchTerms) {
+        newArr.push(term[1]);
+      }
+      return newArr;
+    }
+    const query = getParams();
+    fetch(`/api/codeJournal/${query}`)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          photoUrl: result.photoUrl,
+          notes: result.notes,
+          title: result.title,
+          entryId: result.entryId
+        });
+      }
+      );
   }
 
   handleUrl(event) {
@@ -30,8 +56,25 @@ export default class Edit extends React.Component {
     this.setState({ notes: event.target.value });
   }
 
-  handleCancel() {
-    return <Entries />;
+  handleDelete() {
+    this.setState({ deleteEntry: true });
+  }
+
+  deleteModal() {
+    const { deleteEntry } = this.state;
+    if (deleteEntry) {
+      return (
+      <div className="overlay">
+        <div className="pop-up">
+          <h3>Are You Sure You Want to Delete This Entry?</h3>
+          <div className="delete-button-container">
+            <button>Cancel</button>
+            <button>Delete</button>
+          </div>
+        </div>
+      </div>
+      );
+    }
   }
 
   handleEditSubmit() {
@@ -58,10 +101,11 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    const { photoUrl, title, notes, edited } = this.state;
+    const { edited, photoUrl, notes, title } = this.state;
     if (edited) return <Entries />;
     return (
       <div className="form-container">
+        {this.deleteModal()}
         <form onSubmit={this.handleEditSubmit}>
           <div className='row col-full'>
             <h1>New Entry</h1>
@@ -92,7 +136,7 @@ export default class Edit extends React.Component {
             <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
           </div>
           <div className="button-container col-full">
-            <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
+            <button className="delete-button" onClick={this.handleDelete}>Delete Entry</button>
             <button className="save-button" type="submit" >Save</button>
           </div>
         </form>

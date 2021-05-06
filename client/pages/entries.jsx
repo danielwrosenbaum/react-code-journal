@@ -28,15 +28,22 @@ export default class Entries extends React.Component {
   }
 
   handleClick(entry) {
+    event.preventDefault();
+
     this.setState({ editEntry: entry });
+    const { editEntry } = this.state;
+    if (editEntry) {
+      const { entryId } = this.state.editEntry;
+      window.location.hash = `#edit?=${entryId}`;
+    }
 
   }
 
   render() {
     const { result, editEntry } = this.state;
-    if (editEntry) {
-      return <Edit data={editEntry} />;
-    }
+    // if (editEntry) {
+    //   return <Edit data={editEntry} />;
+    // }
     if (!result) return null;
     const entries = result;
     const entryResults = (
@@ -63,7 +70,7 @@ export default class Entries extends React.Component {
                       <p>{notes}</p>
                     </div>
                   </div>
-                  <div className="row col-five edit-icon" >
+                  <div className="row col-five edit-icon">
                     <i id={entryId} className="far fa-edit" onClick={() => this.handleClick(entry)}></i>
                     </div>
                 </div>
