@@ -20,6 +20,7 @@ export default class Edit extends React.Component {
     this.handleTitle = this.handleTitle.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
   }
 
   componentDidMount() {
@@ -57,8 +58,22 @@ export default class Edit extends React.Component {
     this.setState({ notes: event.target.value });
   }
 
-  handleDelete() {
+  handleDeleteClicked() {
     this.setState({ deleteEntry: true });
+  }
+
+  handleDelete() {
+    const { entryId } = this.state;
+    // this.setState({ deleteEntry: false });
+    const req = {
+      method: 'DELETE'
+    };
+    fetch(`/api/codeJournal/${entryId}`, req)
+      .then(result => {
+        this.setState({ deleteEntry: false });
+        return result;
+      })
+      .catch(error => console.error(error));
   }
 
   deleteModal() {
@@ -69,7 +84,7 @@ export default class Edit extends React.Component {
         <div className="pop-up">
           <h3>Are You Sure You Want to Delete This Entry?</h3>
           <div className="delete-button-container">
-            <button>Cancel</button>
+            <button onClick={this.handleDelete}>Cancel</button>
             <button>Delete</button>
           </div>
         </div>
@@ -134,7 +149,7 @@ export default class Edit extends React.Component {
             <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
           </div>
           <div className="button-container col-full">
-            <button className="delete-button" type="button" onClick={this.handleDelete}>Delete Entry</button>
+            <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
             <button className="save-button" type="submit" >Save</button>
           </div>
         </form>

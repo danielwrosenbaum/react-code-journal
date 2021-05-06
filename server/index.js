@@ -71,6 +71,28 @@ app.put('/api/codeJournal/:entryId', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+app.delete('/api/codeJournal/:entryId', (req, res, next) => {
+  const entryId = req.params.entryId;
+  const sql = `
+  delete from "journal"
+    where "entryId" = $1
+    returning *
+  `;
+  const params = [entryId];
+  db.query(sql, params)
+    .then(result => {
+      const entry = result.rows[0];
+      if (!entry) {
+        res.status(404).json({
+          error: `Cannot find book with ID of ${entryId}, please try again.`
+        });
+      } else {
+        res.status(204).json(entry);
+      }
+    })
+    .catch(err => next(err));
+});
 app.listen(process.env.PORT, () => {
   console.log(`express server listening on port ${process.env.PORT}`);
 });
