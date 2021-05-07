@@ -1,6 +1,7 @@
 import React from 'react';
 import Entries from './entries';
 import parseRoute from '../lib/parse-route';
+import Loader from '../components/loader';
 
 export default class Edit extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ export default class Edit extends React.Component {
       entryId: null,
       isDeleteClicked: false,
       deleted: false,
-      edited: false
+      edited: false,
+      isLoading: true
 
     };
     this.handleUrl = this.handleUrl.bind(this);
@@ -42,7 +44,8 @@ export default class Edit extends React.Component {
           photoUrl: result.photoUrl,
           notes: result.notes,
           title: result.title,
-          entryId: result.entryId
+          entryId: result.entryId,
+          isLoading: false
         });
       })
       .catch(error => {
@@ -170,11 +173,13 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    const { edited, deleted } = this.state;
+    const { edited, deleted, isLoading } = this.state;
     if (edited) return <Entries />;
     if (deleted) return <Entries />;
     return (
       <div className="edit-page">
+        {(isLoading) &&
+          <Loader />}
         {this.deleteModal()}
         {this.renderForm()}
 
