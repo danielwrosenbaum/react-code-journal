@@ -135,7 +135,7 @@ export default class Edit extends React.Component {
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
           <div className='row col-full'>
-            <div className="one">New Entry</div>
+            <div className="one">Edit Entry</div>
           </div>
           <div className='row'>
             <div className="col-half pic-container">
