@@ -1,4 +1,3 @@
-
 import React from 'react';
 import parseRoute from '../../Final-Project/client/lib/parse-route';
 import Navbar from './components/nav-bar';

@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from '../components/loader';
 
 export default class Entries extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export default class Entries extends React.Component {
   }
 
   render() {
-    const { result } = this.state;
+    const { result, isLoading } = this.state;
     if (!result) return null;
     const entries = result;
     const entryResults = (
@@ -80,6 +81,9 @@ export default class Entries extends React.Component {
     return (
       <div className="entry-page">
         <div className="one">Entries</div>
+        {(isLoading) &&
+         <Loader /> }
+
         {entryResults}
       </div>
     );
