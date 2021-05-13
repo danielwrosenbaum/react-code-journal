@@ -6,13 +6,15 @@ export default class Create extends React.Component {
     this.state = {
       photoUrl: '',
       title: '',
-      notes: ''
+      notes: '',
+      website: ''
     };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleWebsite = this.handleWebsite.bind(this);
   }
 
   handleUrl(event) {
@@ -27,21 +29,27 @@ export default class Create extends React.Component {
     this.setState({ notes: event.target.value });
   }
 
+  handleWebsite(event) {
+    this.setState({ website: event.target.value });
+  }
+
   handleCancel() {
     this.setState({
       photoUrl: '',
       title: '',
-      notes: ''
+      notes: '',
+      website: ''
     });
   }
 
   handleSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes } = this.state;
+    const { photoUrl, title, notes, website } = this.state;
     const entry = {
       photoUrl,
       title,
-      notes
+      notes,
+      website
     };
     const req = {
       method: 'POST',

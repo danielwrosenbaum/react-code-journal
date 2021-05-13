@@ -11,6 +11,7 @@ create table "public"."journal" (
   "title"               text,
   "photoUrl"            text,
   "notes"               text,
+  "website"             text,
   "createdAt"           timestamptz(6) not null default now(),
   primary key ("entryId")
 );

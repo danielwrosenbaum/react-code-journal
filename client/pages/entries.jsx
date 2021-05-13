@@ -48,10 +48,12 @@ export default class Entries extends React.Component {
           <h2>Nothing Here!</h2>}
         {
           entries.map((entry, index) => {
+            console.log(entry);
             const title = entry.title;
             const photoUrl = entry.photoUrl;
             const notes = entry.notes;
             const entryId = entry.entryId;
+            const website = entry.website;
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -61,10 +63,13 @@ export default class Entries extends React.Component {
                   <div className="col-half info-container">
                     <div className="row">
                       <div className="two col-fortyfive">{title}</div>
-                      <div className="col-five ">
+                      <div className="col-five">
                         <i id={entryId} className="edit-icon far fa-edit" onClick={() => this.handleClick(entry)}></i>
                       </div>
                     </div>
+                    <div className="row">
+                      <a href={website} className="col-fortyfive">{website}</a>
+                      </div>
                     <div className="row">
                       <p>{notes}</p>
                     </div>
