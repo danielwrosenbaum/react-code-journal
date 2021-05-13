@@ -89,6 +89,12 @@ export default class Create extends React.Component {
                 </div>
                   <input required className="input col-full" type="text" value={this.state.title} placeholder="Your Title Here" onChange={this.handleTitle} />
                 </div>
+                <div className="box">
+                  <div className="titles">
+                    Website
+                </div>
+                  <input required className="input col-full" type="text" value={this.state.website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+                </div>
               </div>
             </div>
             <div className="col-full box">
