@@ -233,11 +233,6 @@ button:active {
 
 a, p {
   word-wrap: break-word;
-  /* overflow: scroll; */
-  /* margin: 0 0.5rem; */
-}
-
-p {
-  display: flex;
-  flex-wrap: wrap;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }

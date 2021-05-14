@@ -76,7 +76,7 @@ export default class Entries extends React.Component {
                     </div>
 
                     <div className="row">
-                      <p className="col-full">{notes}</p>
+                      <p>{notes}</p>
                     </div>
                   </div>
 
