@@ -10,12 +10,13 @@ body {
   background: linear-gradient(-150deg, #d6e6f2 0%, #769fcd 100%);
 }
 .nav-container {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
   margin: 0 1rem;
   text-decoration: none;
   outline: none;
-  align-items: center;
+  /* align-items: center; */
   height: 3rem;
 }
 
@@ -48,14 +49,17 @@ body {
   background-color: #f7fbfc;
   font-family: 'Fira Sans', sans-serif;
 }
+
+.info-container {
+    display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
 .form-container {
   /* width: 100%; */
 }
 .icon-container {
-  /* display: flex; */
-  /* width: 100%; */
-  /* flex-direction: row-reverse; */
-  margin-right: 1rem;
+  margin-bottom: 0.5rem;
   margin-left:auto;
 }
 .entries-title {
@@ -66,9 +70,7 @@ body {
 .pic-container {
   margin: 1rem;
 }
-.info-container {
-  margin: 1rem;
-}
+
 .entries-container {
   width: 100%;
 }
@@ -76,9 +78,6 @@ body {
   margin: 1rem 0;
   border: 1px solid #d6e6f2;
   border-radius: 0.5rem;
-  /* display: flex;
-  flex-wrap: wrap;
- justify-content: space-evenly; */
   background: linear-gradient(-120deg, #f7fbfc 25%, #d6e6f2 100%);
 
 }
@@ -102,6 +101,7 @@ body {
 .button-container {
   display: flex;
   justify-content: space-between;
+  margin: 0.5rem 1rem;
 }
 .input {
   height: 2rem;

@@ -85,7 +85,7 @@ export default class Create extends React.Component {
               <div className="col-half pic-container">
                 <img className="pic" src={(photoUrl) || placeholder} alt="unknown" />
               </div>
-              <div className="col-half">
+              <div className="col-half info-container">
                 <div className="box">
                   <div className="titles">
                     Image Url
@@ -106,15 +106,21 @@ export default class Create extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="col-full box">
-              <div className="titles">
-                Notes
+            <div className="row">
+              <div className="col-full info-container">
+                <div className="box">
+                  <div className="titles">
+                    Notes
+                  </div>
+                  <textarea required className="notes col-full" rows="5" name="notes" value={this.state.notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+                </div>
+              </div>
             </div>
-              <textarea required className="notes col-full" rows="5" name="notes" value={this.state.notes} placeholder="Add Notes!" onChange={this.handleNotes} />
-            </div>
-            <div className="button-container col-full">
-              <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
-              <button className="save-button" type="submit" >Save</button>
+            <div className="row">
+              <div className="button-container col-full">
+                <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
+                <button className="save-button" type="submit" >Save</button>
+              </div>
             </div>
           </form>
         </div>

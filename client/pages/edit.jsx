@@ -96,15 +96,15 @@ export default class Edit extends React.Component {
     const { isDeleteClicked } = this.state;
     if (isDeleteClicked) {
       return (
-      <div className="overlay">
-        <div className="pop-up">
-          <h3>Are You Sure You Want to Delete This Entry?</h3>
-          <div className="delete-button-container">
-            <button onClick={this.handleCancel}>Cancel</button>
+        <div className="overlay">
+          <div className="pop-up">
+            <h3>Are You Sure You Want to Delete This Entry?</h3>
+            <div className="delete-button-container">
+              <button onClick={this.handleCancel}>Cancel</button>
               <button onClick={this.handleDelete}>Delete</button>
+            </div>
           </div>
         </div>
-      </div>
       );
     }
   }
@@ -149,7 +149,7 @@ export default class Edit extends React.Component {
             <div className="col-half pic-container">
               <img className="pic" src={photoUrl} alt={title} />
             </div>
-            <div className="col-half">
+            <div className="col-half info-container">
               <div className="box">
                 <div className="titles">
                   Image Url
@@ -170,15 +170,19 @@ export default class Edit extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-full box">
-            <div className="titles">
-              Notes
+          <div className="row">
+            <div className="col-full info-container box">
+              <div className="titles">
+                Notes
             </div>
-            <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+              <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+            </div>
           </div>
-          <div className="button-container col-full">
-            <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
-            <button className="save-button" type="submit" >Save</button>
+          <div className="row">
+            <div className="button-container col-full">
+              <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
+              <button className="save-button" type="submit" >Save</button>
+            </div>
           </div>
         </form>
       </div>
