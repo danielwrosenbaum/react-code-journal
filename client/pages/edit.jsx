@@ -10,6 +10,7 @@ export default class Edit extends React.Component {
       photoUrl: '',
       notes: '',
       title: '',
+      website: '',
       route: parseRoute(window.location.hash),
       entryId: null,
       isDeleteClicked: false,
@@ -21,6 +22,7 @@ export default class Edit extends React.Component {
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
+    this.handleWebsite = this.handleWebsite.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
@@ -45,6 +47,7 @@ export default class Edit extends React.Component {
           notes: result.notes,
           title: result.title,
           entryId: result.entryId,
+          website: result.website,
           isLoading: false
         });
       })
@@ -63,6 +66,10 @@ export default class Edit extends React.Component {
 
   handleNotes(event) {
     this.setState({ notes: event.target.value });
+  }
+
+  handleWebsite(event) {
+    this.setState({ website: event.target.value });
   }
 
   handleDeleteClicked() {
@@ -104,11 +111,12 @@ export default class Edit extends React.Component {
 
   handleEditSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes, entryId } = this.state;
+    const { photoUrl, title, notes, entryId, website } = this.state;
     const entry = {
       photoUrl,
       title,
-      notes
+      notes,
+      website
     };
     const req = {
       method: 'PUT',
@@ -130,7 +138,7 @@ export default class Edit extends React.Component {
   }
 
   renderForm() {
-    const { photoUrl, title, notes } = this.state;
+    const { photoUrl, title, notes, website } = this.state;
     return (
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
@@ -153,6 +161,12 @@ export default class Edit extends React.Component {
                   Title
                 </div>
                 <input required className="input col-full" type="text" value={title} placeholder="Your Title Here" onChange={this.handleTitle} />
+              </div>
+              <div className="box">
+                <div className="titles">
+                  Website
+                </div>
+                <input required className="input col-full" type="text" value={website} placeholder="http://example.com/" onChange={this.handleWebsite} />
               </div>
             </div>
           </div>

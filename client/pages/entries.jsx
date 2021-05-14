@@ -48,7 +48,6 @@ export default class Entries extends React.Component {
           <h2>Nothing Here!</h2>}
         {
           entries.map((entry, index) => {
-            console.log(entry);
             const title = entry.title;
             const photoUrl = entry.photoUrl;
             const notes = entry.notes;
@@ -62,16 +61,22 @@ export default class Entries extends React.Component {
                   </div>
                   <div className="col-half info-container">
                     <div className="row">
-                      <div className="two col-fortyfive">{title}</div>
-                      <div className="col-five">
-                        <i id={entryId} className="edit-icon far fa-edit" onClick={() => this.handleClick(entry)}></i>
+                      <div className="icon-container">
+                        <div className="col-ninety"></div>
+                        <i id={entryId} className="col-five edit-icon far fa-edit" onClick={() => this.handleClick(entry)}></i>
                       </div>
                     </div>
                     <div className="row">
-                      <a href={website} className="col-fortyfive">{website}</a>
-                      </div>
+                      <div className="two col-ninety">{title}</div>
+
+                    </div>
                     <div className="row">
-                      <p>{notes}</p>
+
+                      <a className="col-ninety anchor" href={website}>{website}</a>
+                    </div>
+
+                    <div className="row">
+                      <p className="col-full">{notes}</p>
                     </div>
                   </div>
 
@@ -87,7 +92,7 @@ export default class Entries extends React.Component {
       <div className="entry-page">
         <div className="one">Entries</div>
         {(isLoading) &&
-         <Loader /> }
+          <Loader />}
 
         {entryResults}
       </div>

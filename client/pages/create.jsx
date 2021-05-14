@@ -64,7 +64,8 @@ export default class Create extends React.Component {
         this.setState({
           photoUrl: '',
           title: '',
-          notes: ''
+          notes: '',
+          website: ''
         });
       });
 

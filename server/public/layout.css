@@ -1,12 +1,15 @@
 .col-full,
 .col-half {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.col-fortyfive {
-  width: 95%;
+.col-ninety {
+  width: 90%;
 }
+
 .col-five {
-  width: 5%;
+  width: 10%;
 }
 
 
@@ -28,5 +31,8 @@
   }
   .edit-icon {
     font-size: 1.5rem;
+  }
+  .pic {
+    max-width: 100%;
   }
 }
