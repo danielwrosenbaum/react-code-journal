@@ -6,13 +6,15 @@ export default class Create extends React.Component {
     this.state = {
       photoUrl: '',
       title: '',
-      notes: ''
+      notes: '',
+      website: ''
     };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleWebsite = this.handleWebsite.bind(this);
   }
 
   handleUrl(event) {
@@ -27,21 +29,27 @@ export default class Create extends React.Component {
     this.setState({ notes: event.target.value });
   }
 
+  handleWebsite(event) {
+    this.setState({ website: event.target.value });
+  }
+
   handleCancel() {
     this.setState({
       photoUrl: '',
       title: '',
-      notes: ''
+      notes: '',
+      website: ''
     });
   }
 
   handleSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes } = this.state;
+    const { photoUrl, title, notes, website } = this.state;
     const entry = {
       photoUrl,
       title,
-      notes
+      notes,
+      website
     };
     const req = {
       method: 'POST',
@@ -56,7 +64,8 @@ export default class Create extends React.Component {
         this.setState({
           photoUrl: '',
           title: '',
-          notes: ''
+          notes: '',
+          website: ''
         });
       });
 
@@ -76,7 +85,7 @@ export default class Create extends React.Component {
               <div className="col-half pic-container">
                 <img className="pic" src={(photoUrl) || placeholder} alt="unknown" />
               </div>
-              <div className="col-half">
+              <div className="col-half info-container">
                 <div className="box">
                   <div className="titles">
                     Image Url
@@ -89,17 +98,29 @@ export default class Create extends React.Component {
                 </div>
                   <input required className="input col-full" type="text" value={this.state.title} placeholder="Your Title Here" onChange={this.handleTitle} />
                 </div>
+                <div className="box">
+                  <div className="titles">
+                    Website
+                </div>
+                  <input required className="input col-full" type="text" value={this.state.website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+                </div>
               </div>
             </div>
-            <div className="col-full box">
-              <div className="titles">
-                Notes
+            <div className="row">
+              <div className="col-full info-container">
+                <div className="box">
+                  <div className="titles">
+                    Notes
+                  </div>
+                  <textarea required className="notes col-full" rows="5" name="notes" value={this.state.notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+                </div>
+              </div>
             </div>
-              <textarea required className="notes col-full" rows="5" name="notes" value={this.state.notes} placeholder="Add Notes!" onChange={this.handleNotes} />
-            </div>
-            <div className="button-container col-full">
-              <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
-              <button className="save-button" type="submit" >Save</button>
+            <div className="row">
+              <div className="button-container col-full">
+                <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
+                <button className="save-button" type="submit" >Save</button>
+              </div>
             </div>
           </form>
         </div>

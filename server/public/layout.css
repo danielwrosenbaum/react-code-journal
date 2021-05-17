@@ -1,14 +1,34 @@
 .col-full,
+.col-third,
 .col-half {
   width: 100%;
+  /* display: flex; */
+  /* flex-direction: column; */
 }
-.col-fortyfive {
-  width: 95%;
-}
-.col-five {
-  width: 5%;
+.col-ninety {
+  width: 90%;
 }
 
+.col-five {
+  width: 10%;
+}
+.searchbar {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.nav-container {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.navbar-title {
+  text-align: center;
+}
+.navbar-under {
+  justify-content: space-between;
+}
 
 @media screen and (min-width: 768px) {
   .container,
@@ -21,7 +41,12 @@
   .col-five {
     width: 2.5%;
   }
-
+  .col-third {
+    width: calc(100% / 3)
+  }
+  .col-quarter {
+    width: 25%;
+  }
   .col-half {
     width: 50%;
     align-self: flex-start;
@@ -29,4 +54,20 @@
   .edit-icon {
     font-size: 1.5rem;
   }
+  .pic {
+    max-width: 100%;
+  }
+  .searchbar {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: stretch;
+}
+.nav-container {
+  flex-direction: row;
+  justify-content: space-between;
+}
+.navbar-title {
+  text-align: left;
+}
 }

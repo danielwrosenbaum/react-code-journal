@@ -10,6 +10,7 @@ export default class Edit extends React.Component {
       photoUrl: '',
       notes: '',
       title: '',
+      website: '',
       route: parseRoute(window.location.hash),
       entryId: null,
       isDeleteClicked: false,
@@ -21,6 +22,7 @@ export default class Edit extends React.Component {
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
+    this.handleWebsite = this.handleWebsite.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
@@ -45,6 +47,7 @@ export default class Edit extends React.Component {
           notes: result.notes,
           title: result.title,
           entryId: result.entryId,
+          website: result.website,
           isLoading: false
         });
       })
@@ -63,6 +66,10 @@ export default class Edit extends React.Component {
 
   handleNotes(event) {
     this.setState({ notes: event.target.value });
+  }
+
+  handleWebsite(event) {
+    this.setState({ website: event.target.value });
   }
 
   handleDeleteClicked() {
@@ -89,26 +96,27 @@ export default class Edit extends React.Component {
     const { isDeleteClicked } = this.state;
     if (isDeleteClicked) {
       return (
-      <div className="overlay">
-        <div className="pop-up">
-          <h3>Are You Sure You Want to Delete This Entry?</h3>
-          <div className="delete-button-container">
-            <button onClick={this.handleCancel}>Cancel</button>
+        <div className="overlay">
+          <div className="pop-up">
+            <h3>Are You Sure You Want to Delete This Entry?</h3>
+            <div className="delete-button-container">
+              <button onClick={this.handleCancel}>Cancel</button>
               <button onClick={this.handleDelete}>Delete</button>
+            </div>
           </div>
         </div>
-      </div>
       );
     }
   }
 
   handleEditSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes, entryId } = this.state;
+    const { photoUrl, title, notes, entryId, website } = this.state;
     const entry = {
       photoUrl,
       title,
-      notes
+      notes,
+      website
     };
     const req = {
       method: 'PUT',
@@ -130,7 +138,7 @@ export default class Edit extends React.Component {
   }
 
   renderForm() {
-    const { photoUrl, title, notes } = this.state;
+    const { photoUrl, title, notes, website } = this.state;
     return (
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
@@ -141,7 +149,7 @@ export default class Edit extends React.Component {
             <div className="col-half pic-container">
               <img className="pic" src={photoUrl} alt={title} />
             </div>
-            <div className="col-half">
+            <div className="col-half info-container">
               <div className="box">
                 <div className="titles">
                   Image Url
@@ -154,17 +162,27 @@ export default class Edit extends React.Component {
                 </div>
                 <input required className="input col-full" type="text" value={title} placeholder="Your Title Here" onChange={this.handleTitle} />
               </div>
+              <div className="box">
+                <div className="titles">
+                  Website
+                </div>
+                <input required className="input col-full" type="text" value={website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+              </div>
             </div>
           </div>
-          <div className="col-full box">
-            <div className="titles">
-              Notes
+          <div className="row">
+            <div className="col-full info-container box">
+              <div className="titles">
+                Notes
             </div>
-            <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+              <textarea required className="notes col-full" rows="5" name="notes" value={notes} placeholder="Add Notes!" onChange={this.handleNotes} />
+            </div>
           </div>
-          <div className="button-container col-full">
-            <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
-            <button className="save-button" type="submit" >Save</button>
+          <div className="row">
+            <div className="button-container col-full">
+              <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
+              <button className="save-button" type="submit" >Save</button>
+            </div>
           </div>
         </form>
       </div>

@@ -22,6 +22,20 @@ app.get('/api/codeJournal', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/codeJournal/search/:query', (req, res, next) => {
+  const searchQuery = req.params.query;
+  const sql = `
+  select *
+    from "journal"
+    where "title" iLIKE '%${searchQuery}%'
+  `;
+  db.query(sql)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+
+});
 app.get('/api/codeJournal/:entryId', (req, res, next) => {
   const entryId = req.params.entryId;
   const sql = `
@@ -38,13 +52,13 @@ app.get('/api/codeJournal/:entryId', (req, res, next) => {
 });
 
 app.post('/api/codeJournal', (req, res, next) => {
-  const { photoUrl, title, notes } = req.body;
+  const { photoUrl, title, notes, website } = req.body;
   const sql = `
-  insert into "journal" ("title", "photoUrl", "notes")
-  values ($1, $2, $3)
+  insert into "journal" ("title", "photoUrl", "notes", "website")
+  values ($1, $2, $3, $4)
   returning *
   `;
-  const params = [title, photoUrl, notes];
+  const params = [title, photoUrl, notes, website];
   db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows[0]);
@@ -54,16 +68,17 @@ app.post('/api/codeJournal', (req, res, next) => {
 
 app.put('/api/codeJournal/:entryId', (req, res, next) => {
   const entryId = req.params.entryId;
-  const { photoUrl, title, notes } = req.body;
+  const { photoUrl, title, notes, website } = req.body;
   const sql = `
   update "journal"
     set "photoUrl" = $1,
         "title" = $2,
-        "notes" = $3
-    where "entryId" = $4
+        "notes" = $3,
+        "website" = $4
+    where "entryId" = $5
     returning *
   `;
-  const params = [photoUrl, title, notes, entryId];
+  const params = [photoUrl, title, notes, website, entryId];
   db.query(sql, params)
     .then(result => {
       const [entry] = result.rows;

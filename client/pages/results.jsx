@@ -1,50 +1,69 @@
 import React from 'react';
+import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
 
-export default class Entries extends React.Component {
+export default class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: null,
+      route: parseRoute(window.location.hash),
       isLoading: true,
-      editEntry: null
+      currentPath: this.getParams(parseRoute(window.location.hash).params),
+      inputValue: this.props.value,
+      query: this.props.value,
+      result: null
     };
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/codeJournal')
+    const { query, inputValue } = this.state;
+    fetch(`/api/codeJournal/search/${query}`)
       .then(res => res.json())
-      .then(result => {
-        this.setState({
-          result,
-          isLoading: false
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      .then(
+        result => {
+          this.setState({
+            isLoading: false,
+            query: inputValue,
+            result
+          });
+        }
+      );
   }
 
-  handleClick(entry) {
-    event.preventDefault();
-    this.setState({ editEntry: entry });
-    const { editEntry } = this.state;
-    if (editEntry) {
-      const { entryId } = this.state.editEntry;
-      window.location.hash = `#edit?=${entryId}`;
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.value !== this.state.query) {
+      fetch(`/api/codeJournal/search/${this.props.value}`)
+        .then(res => res.json())
+        .then(
+          result => {
+            this.setState({
+              isLoading: false,
+              query: this.props.value,
+              result
+            });
+          }
+        );
     }
-
   }
 
-  render() {
-    const { result, isLoading } = this.state;
+  getParams(searchTerms) {
+    const newArr = [];
+    for (const term of searchTerms) {
+      if (term[0] === 'search') {
+        newArr.push(term[1]);
+      }
+    }
+    return newArr;
+  }
+
+  renderResults() {
+    const { result, inputValue } = this.state;
     if (!result) return null;
     const entries = result;
     const entryResults = (
       <div className="entries-container">
         {(result.length === 0) &&
-          <h2>Nothing Here!</h2>}
+          <h2>{`No Results for "${inputValue}"`}</h2>}
         {
           entries.map((entry, index) => {
             const title = entry.title;
@@ -78,19 +97,23 @@ export default class Entries extends React.Component {
                 </div>
               </div>
             );
-
           })
         }
       </div>
     );
+    return entryResults;
+  }
+
+  render() {
+    const { isLoading } = this.state;
     return (
       <div className="entry-page">
-        <div className="one">Entries</div>
+        <div className="one">{`Results for "${this.props.value}"`}</div>
         {(isLoading) &&
           <Loader />}
-
-        {entryResults}
+        {this.renderResults()}
       </div>
     );
+
   }
 }
