@@ -8,7 +8,6 @@ export default class Entries extends React.Component {
       result: null,
       isLoading: true,
       editEntry: null
-
     };
     this.handleClick = this.handleClick.bind(this);
   }
