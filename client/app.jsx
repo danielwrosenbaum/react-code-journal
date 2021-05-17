@@ -22,8 +22,19 @@ export default class App extends React.Component {
     });
   }
 
+  getParams(searchTerms) {
+    const newArr = [];
+    for (const term of searchTerms) {
+      if (term[0] === 'search') {
+        newArr.push(term[1]);
+      }
+    }
+    return newArr;
+  }
+
   renderPage() {
     const { route } = this.state;
+    const currentPath = this.getParams(route.params);
     if (route.path === '' || route.path === 'create') {
       return <Create />;
     }
@@ -34,7 +45,7 @@ export default class App extends React.Component {
       return <Edit />;
     }
     if (route.path === 'entry') {
-      return <Entry />;
+      return <Entry value={currentPath}/>;
     }
   }
 

@@ -9,44 +9,46 @@ export default class Entry extends React.Component {
       route: parseRoute(window.location.hash),
       isLoading: true,
       currentPath: this.getParams(parseRoute(window.location.hash).params),
-      inputValue: '',
+      inputValue: this.props.value,
+      query: this.props.value,
       result: null
     };
   }
 
   componentDidMount() {
-    const { route } = this.state;
-    const pageRoute = this.getParams(route.params);
-    const currentRoute = this.getParams(parseRoute(window.location.hash).params);
-    let query;
-    if (currentRoute[0] === pageRoute[0]) {
-      query = pageRoute;
-    } else {
-      this.setState({ route: parseRoute(window.location.hash) });
-      query = currentRoute;
-    }
+    const { route, query, inputValue } = this.state;
+
+    // const pageRoute = this.getParams(route.params);
+    // const currentRoute = this.getParams(parseRoute(window.location.hash).params);
+
     fetch(`/api/codeJournal/search/${query}`)
       .then(res => res.json())
       .then(
         result => {
           this.setState({
             isLoading: false,
-            inputValue: query,
+            query: inputValue,
             result
           });
         }
       );
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { route } = this.state;
-  //   const pageRoute = this.getParams(route.params);
-  //   const currentRoute = this.getParams(parseRoute(window.location.hash).params);
-  //   if (pageRoute !== currentRoute) {
-  //     console.log('it changed');
-  //     this.setState({route: })
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.value !== this.state.query) {
+      fetch(`/api/codeJournal/search/${this.props.value}`)
+        .then(res => res.json())
+        .then(
+          result => {
+            this.setState({
+              isLoading: false,
+              query: this.props.value,
+              result
+            });
+          }
+        );
+    }
+  }
 
   getParams(searchTerms) {
     const newArr = [];
@@ -60,9 +62,6 @@ export default class Entry extends React.Component {
 
   renderResults() {
     const { result, inputValue } = this.state;
-    // const pageRoute = this.getParams(route.params);
-    // const currentRoute = this.getParams(parseRoute(window.location.hash).params);
-    // console.log(currentRoute[0], pageRoute[0]);
     if (!result) return null;
     const entries = result;
     const entryResults = (
@@ -110,14 +109,14 @@ export default class Entry extends React.Component {
   }
 
   render() {
-    const { isLoading, inputValue } = this.state;
-
+    const { isLoading, inputValue, route, currentPath } = this.state;
+    console.log('props:', this.props.value);
     return (
       <div className="entry-page">
-        <div className="one">{`Results for "${inputValue}"`}</div>
+        <div className="one">{`Results for "${this.props.value}"`}</div>
         {(isLoading) &&
           <Loader />}
-          {this.renderResults()}
+        {this.renderResults()}
       </div>
     );
 

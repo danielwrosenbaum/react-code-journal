@@ -121,7 +121,7 @@ body {
 }
 
 .search {
-
+width: 200px;
     height: 2rem;
   border-radius: 1rem;
   box-shadow: 0px 2px 3px #769fcd;
