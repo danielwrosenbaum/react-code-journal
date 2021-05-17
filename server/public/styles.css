@@ -121,7 +121,8 @@ body {
 }
 
 .search {
-    /* margin-bottom: 0.5rem; */
+
+    height: 2rem;
   border-radius: 1rem;
   box-shadow: 0px 2px 3px #769fcd;
   border: 0.25px solid #769fcd;
@@ -248,4 +249,27 @@ button:active {
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-all;
+}
+.fg--search {
+  /* background: white; */
+  position: relative;
+  /* width: 300px; */
+}
+
+.fg--search button {
+  background: transparent;
+  border-radius: 1rem;
+  height: 2rem;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-shadow: none;
+}
+
+.fg--search input:focus + button .fa-search {
+  color: red;
 }

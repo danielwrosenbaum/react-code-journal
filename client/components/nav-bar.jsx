@@ -25,9 +25,10 @@ export default class Navbar extends React.Component {
             </div>
             <div className="navbar-under col-third">
               {/* <div className="col-quarter"></div> */}
-              <div className="searchbar">
-                <label className="navbar-entries two" htmlFor="search">Search:</label>
-                <input className="search " type="text" value={this.state.searchValue} required onChange={this.handleSearch}></input>
+              <div className="form-group fg--search">
+                {/* <label className="navbar-entries two" htmlFor="search"></label> */}
+                <input className="search" type="text" value={this.state.searchValue} placeholder="Search Entries" required onChange={this.handleSearch}></input>
+                <button type="submit"><i className="fa fa-search"></i></button>
               </div>
               <a className="navbar-entries" href="#entries">
                 <div className="two">Entries</div>
