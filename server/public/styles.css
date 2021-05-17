@@ -20,7 +20,7 @@ body {
 }
 .navbar-under {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin: 0.25rem 0
 }
@@ -121,7 +121,7 @@ body {
 }
 
 .search {
-width: 200px;
+width: 185px;
     height: 2rem;
   border-radius: 1rem;
   box-shadow: 0px 2px 3px #769fcd;

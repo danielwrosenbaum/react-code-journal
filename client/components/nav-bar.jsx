@@ -32,6 +32,9 @@ export default class Navbar extends React.Component {
               </a>
             </div>
             <div className="navbar-under col-third">
+              <a className="navbar-entries" href="#create">
+                <div className="two">New</div>
+              </a>
               <form className="form-group fg--search">
                 <input className="search" type="text" value={this.state.searchValue} placeholder="Search Entries" required onChange={this.handleSearch}></input>
                 <button type="submit" onClick={this.handleSubmit}><i className="fa fa-search"></i></button>
