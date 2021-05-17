@@ -1,4 +1,5 @@
 .col-full,
+.col-third,
 .col-half {
   width: 100%;
   /* display: flex; */
@@ -60,7 +61,7 @@
   display: flex;
   justify-content: center;
   flex-direction: row;
-  align-items: baseline;
+  align-items: stretch;
 }
 .nav-container {
   flex-direction: row;

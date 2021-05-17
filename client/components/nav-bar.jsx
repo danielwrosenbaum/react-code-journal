@@ -23,7 +23,7 @@ export default class Navbar extends React.Component {
                 <div className="one">CodeJournal</div>
               </a>
             </div>
-            <div className="navbar-under col-half">
+            <div className="navbar-under col-third">
               {/* <div className="col-quarter"></div> */}
               <div className="searchbar">
                 <label className="navbar-entries two" htmlFor="search">Search:</label>
