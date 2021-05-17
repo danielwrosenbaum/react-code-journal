@@ -5,7 +5,7 @@ import PageContainer from './components/page-container';
 import Create from './pages/create';
 import Entries from './pages/entries';
 import Edit from './pages/edit';
-import Entry from './pages/entry';
+import Results from './pages/results';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -44,8 +44,8 @@ export default class App extends React.Component {
     if (route.path === 'edit') {
       return <Edit />;
     }
-    if (route.path === 'entry') {
-      return <Entry value={currentPath}/>;
+    if (route.path === 'results') {
+      return <Results value={currentPath}/>;
     }
   }
 

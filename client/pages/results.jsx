@@ -2,7 +2,7 @@ import React from 'react';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
 
-export default class Entry extends React.Component {
+export default class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,11 +16,7 @@ export default class Entry extends React.Component {
   }
 
   componentDidMount() {
-    const { route, query, inputValue } = this.state;
-
-    // const pageRoute = this.getParams(route.params);
-    // const currentRoute = this.getParams(parseRoute(window.location.hash).params);
-
+    const { query, inputValue } = this.state;
     fetch(`/api/codeJournal/search/${query}`)
       .then(res => res.json())
       .then(
@@ -109,8 +105,7 @@ export default class Entry extends React.Component {
   }
 
   render() {
-    const { isLoading, inputValue, route, currentPath } = this.state;
-    console.log('props:', this.props.value);
+    const { isLoading } = this.state;
     return (
       <div className="entry-page">
         <div className="one">{`Results for "${this.props.value}"`}</div>
