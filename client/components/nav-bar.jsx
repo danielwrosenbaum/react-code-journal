@@ -16,7 +16,7 @@ export default class Navbar extends React.Component {
 
   handleSubmit() {
     event.preventDefault();
-    window.location.hash = 'entries?search=' + this.state.searchValue;
+    window.location.hash = 'entry?search=' + this.state.searchValue;
 
   }
 
@@ -31,10 +31,10 @@ export default class Navbar extends React.Component {
               </a>
             </div>
             <div className="navbar-under col-third">
-              <div className="form-group fg--search">
+              <form className="form-group fg--search">
                 <input className="search" type="text" value={this.state.searchValue} placeholder="Search Entries" required onChange={this.handleSearch}></input>
                 <button type="submit" onClick={this.handleSubmit}><i className="fa fa-search"></i></button>
-              </div>
+              </form>
               <a className="navbar-entries" href="#entries">
                 <div className="two">Entries</div>
               </a>

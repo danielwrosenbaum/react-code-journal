@@ -67,13 +67,10 @@ export default class Entries extends React.Component {
                     </div>
                     <div className="row">
                       <div className="two" >{title}</div>
-
                     </div>
                     <div className="row">
-
                       <a className="url" href={website}>{website}</a>
                     </div>
-
                     <div className="row">
                       <p>{notes}</p>
                     </div>
