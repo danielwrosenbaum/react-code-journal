@@ -22,6 +22,20 @@ app.get('/api/codeJournal', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/codeJournal/search/:query', (req, res, next) => {
+  const searchQuery = req.params.query;
+  const sql = `
+  select *
+    from "journal"
+    where "title" iLIKE '%${searchQuery}%'
+  `;
+  db.query(sql)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+
+});
 app.get('/api/codeJournal/:entryId', (req, res, next) => {
   const entryId = req.params.entryId;
   const sql = `

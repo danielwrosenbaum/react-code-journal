@@ -17,6 +17,7 @@ export default class Navbar extends React.Component {
   handleSubmit() {
     event.preventDefault();
     window.location.hash = 'entry?search=' + this.state.searchValue;
+    this.setState({ searchValue: '' });
 
   }
 
