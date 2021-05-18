@@ -113,7 +113,6 @@ export default class Entries extends React.Component {
         <div className="select-container">
           <label className="select-label">Sort by</label>
           <select className="select-box" onChange={this.handleChange}>
-            <option>Choose an option</option>
             <option value="newest">Newest (default)</option>
             <option value="oldest">Oldest</option>
             <option value="alpha">A-to-Z</option>
