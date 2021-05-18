@@ -11,6 +11,7 @@ export default class Entries extends React.Component {
       sortBy: 'newest'
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +29,23 @@ export default class Entries extends React.Component {
       });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { sortBy } = this.state;
+    if (prevState.sortBy !== sortBy) {
+      fetch(`/api/codeJournal/${sortBy}`)
+        .then(res => res.json())
+        .then(result => {
+          this.setState({
+            result,
+            isLoading: false
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
+
   handleClick(entry) {
     event.preventDefault();
     this.setState({ editEntry: entry });
@@ -37,6 +55,10 @@ export default class Entries extends React.Component {
       window.location.hash = `#edit?=${entryId}`;
     }
 
+  }
+
+  handleChange() {
+    this.setState({ sortBy: event.target.value });
   }
 
   render() {
@@ -90,12 +112,12 @@ export default class Entries extends React.Component {
         <div className="one">Entries</div>
         <div className="select-container">
           <label className="select-label">Sort by</label>
-          <select className="select-box">
+          <select className="select-box" onChange={this.handleChange}>
             <option>Choose an option</option>
-            <option value="newest">Newest</option>
+            <option value="newest">Newest (default)</option>
             <option value="oldest">Oldest</option>
-            <option value="alpha">A-Z</option>
-            <option value="reverse-alpha">Z-A</option>
+            <option value="alpha">A-to-Z</option>
+            <option value="reverse-alpha">Z-to-A</option>
           </select>
         </div>
 

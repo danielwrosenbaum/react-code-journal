@@ -12,13 +12,24 @@ app.use(jsonMiddleware);
 app.get('/api/codeJournal/:sortBy', (req, res, next) => {
   const sortBy = req.params.sortBy;
   let sqlSort;
+  let order;
   if (sortBy === 'newest') {
     sqlSort = 'entryId';
+    order = 'DESC';
+  } else if (sortBy === 'oldest') {
+    sqlSort = 'entryId';
+    order = 'ASC';
+  } else if (sortBy === 'alpha') {
+    sqlSort = 'title';
+    order = 'ASC';
+  } else if (sortBy === 'reverse-alpha') {
+    sqlSort = 'title';
+    order = 'DESC';
   }
   const sql = `
   select *
     from "journal"
-    order by "${sqlSort}" DESC
+    order by "${sqlSort}" ${order}
   `;
   db.query(sql)
     .then(result => {
