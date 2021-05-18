@@ -46,6 +46,7 @@ app.get('/api/codeJournal/search/:query', (req, res, next) => {
   select *
     from "journal"
     where "title" iLIKE '%${searchQuery}%'
+    or "tags" iLike '%${searchQuery}%'
   `;
   db.query(sql)
     .then(result => {
