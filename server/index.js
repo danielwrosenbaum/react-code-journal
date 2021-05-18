@@ -9,11 +9,27 @@ const jsonMiddleware = express.json();
 app.use(staticMiddleware);
 app.use(jsonMiddleware);
 
-app.get('/api/codeJournal', (req, res, next) => {
+app.get('/api/codeJournal/sort/:sortBy', (req, res, next) => {
+  const sortBy = req.params.sortBy;
+  let sqlSort;
+  let order;
+  if (sortBy === 'newest') {
+    sqlSort = '"entryId"';
+    order = 'DESC';
+  } else if (sortBy === 'oldest') {
+    sqlSort = '"entryId"';
+    order = 'ASC';
+  } else if (sortBy === 'alpha') {
+    sqlSort = 'lower("title")';
+    order = 'ASC';
+  } else if (sortBy === 'reverse-alpha') {
+    sqlSort = 'lower("title")';
+    order = 'DESC';
+  }
   const sql = `
   select *
     from "journal"
-    order by "entryId" DESC
+    order by ${sqlSort} ${order}
   `;
   db.query(sql)
     .then(result => {
@@ -22,6 +38,7 @@ app.get('/api/codeJournal', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('');
 app.get('/api/codeJournal/search/:query', (req, res, next) => {
   const searchQuery = req.params.query;
   const sql = `
@@ -36,7 +53,7 @@ app.get('/api/codeJournal/search/:query', (req, res, next) => {
     .catch(err => next(err));
 
 });
-app.get('/api/codeJournal/:entryId', (req, res, next) => {
+app.get('/api/codeJournal/edit/:entryId', (req, res, next) => {
   const entryId = req.params.entryId;
   const sql = `
   select *

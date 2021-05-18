@@ -39,7 +39,7 @@ export default class Edit extends React.Component {
       return newArr;
     }
     const query = getParams();
-    fetch(`/api/codeJournal/${query}`)
+    fetch(`/api/codeJournal/edit/${query}`)
       .then(res => res.json())
       .then(result => {
         this.setState({
@@ -111,7 +111,7 @@ export default class Edit extends React.Component {
 
   handleEditSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes, entryId, website } = this.state;
+    const { photoUrl, title, notes, entryId, website, edited } = this.state;
     const entry = {
       photoUrl,
       title,
@@ -129,8 +129,10 @@ export default class Edit extends React.Component {
       .then(res => res.json())
       .then(result => {
         this.setState({ edited: true });
-        window.location.hash = '#entries';
       });
+    if (edited) {
+      window.location.hash = '#entries';
+    }
   }
 
   handleCancel() {
@@ -192,7 +194,9 @@ export default class Edit extends React.Component {
 
   render() {
     const { edited, deleted, isLoading } = this.state;
-    if (edited) return <Entries />;
+    if (edited) {
+      window.location.hash = '#entries';
+    }
     if (deleted) return <Entries />;
     return (
       <div className="edit-page">

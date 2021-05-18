@@ -13,6 +13,7 @@ export default class Results extends React.Component {
       query: this.props.value,
       result: null
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +45,17 @@ export default class Results extends React.Component {
           }
         );
     }
+  }
+
+  handleClick(entry) {
+    event.preventDefault();
+    this.setState({ editEntry: entry });
+    const { editEntry } = this.state;
+    if (editEntry) {
+      const { entryId } = this.state.editEntry;
+      window.location.hash = `#edit?=${entryId}`;
+    }
+
   }
 
   getParams(searchTerms) {
