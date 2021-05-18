@@ -39,7 +39,7 @@ export default class Edit extends React.Component {
       return newArr;
     }
     const query = getParams();
-    fetch(`/api/codeJournal/${query}`)
+    fetch(`/api/codeJournal/edit/${query}`)
       .then(res => res.json())
       .then(result => {
         this.setState({

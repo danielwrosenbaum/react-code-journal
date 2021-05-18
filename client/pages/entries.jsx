@@ -16,7 +16,7 @@ export default class Entries extends React.Component {
 
   componentDidMount() {
     const { sortBy } = this.state;
-    fetch(`/api/codeJournal/${sortBy}`)
+    fetch(`/api/codeJournal/sort/${sortBy}`)
       .then(res => res.json())
       .then(result => {
         this.setState({
@@ -32,7 +32,7 @@ export default class Entries extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { sortBy } = this.state;
     if (prevState.sortBy !== sortBy) {
-      fetch(`/api/codeJournal/${sortBy}`)
+      fetch(`/api/codeJournal/sort/${sortBy}`)
         .then(res => res.json())
         .then(result => {
           this.setState({
@@ -120,10 +120,8 @@ export default class Entries extends React.Component {
             <option value="reverse-alpha">Z-to-A</option>
           </select>
         </div>
-
         {(isLoading) &&
           <Loader />}
-
         {entryResults}
       </div>
     );
