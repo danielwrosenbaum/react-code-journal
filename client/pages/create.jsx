@@ -16,6 +16,7 @@ export default class Create extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleWebsite = this.handleWebsite.bind(this);
+    this.handleTags = this.handleTags.bind(this);
   }
 
   handleUrl(event) {
