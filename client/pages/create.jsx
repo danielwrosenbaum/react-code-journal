@@ -7,7 +7,8 @@ export default class Create extends React.Component {
       photoUrl: '',
       title: '',
       notes: '',
-      website: ''
+      website: '',
+      tags: ''
     };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
@@ -15,6 +16,7 @@ export default class Create extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleWebsite = this.handleWebsite.bind(this);
+    this.handleTags = this.handleTags.bind(this);
   }
 
   handleUrl(event) {
@@ -33,23 +35,29 @@ export default class Create extends React.Component {
     this.setState({ website: event.target.value });
   }
 
+  handleTags(event) {
+    this.setState({ tags: event.target.value });
+  }
+
   handleCancel() {
     this.setState({
       photoUrl: '',
       title: '',
       notes: '',
-      website: ''
+      website: '',
+      tags: ''
     });
   }
 
   handleSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes, website } = this.state;
+    const { photoUrl, title, notes, website, tags } = this.state;
     const entry = {
       photoUrl,
       title,
       notes,
-      website
+      website,
+      tags
     };
     const req = {
       method: 'POST',
@@ -65,6 +73,7 @@ export default class Create extends React.Component {
           photoUrl: '',
           title: '',
           notes: '',
+          tags: '',
           website: ''
         });
       });
@@ -103,6 +112,12 @@ export default class Create extends React.Component {
                     Website
                 </div>
                   <input required className="input col-full" type="text" value={this.state.website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+                </div>
+                <div className="box">
+                  <div className="titles">
+                    Tags
+                </div>
+                  <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} />
                 </div>
               </div>
             </div>

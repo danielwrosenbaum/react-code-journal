@@ -11,6 +11,7 @@ export default class Edit extends React.Component {
       notes: '',
       title: '',
       website: '',
+      tags: '',
       route: parseRoute(window.location.hash),
       entryId: null,
       isDeleteClicked: false,
@@ -27,6 +28,7 @@ export default class Edit extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleTags = this.handleTags.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +50,7 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
+          tags: result.tags,
           isLoading: false
         });
       })
@@ -70,6 +73,10 @@ export default class Edit extends React.Component {
 
   handleWebsite(event) {
     this.setState({ website: event.target.value });
+  }
+
+  handleTags(event) {
+    this.setState({ tags: event.target.value });
   }
 
   handleDeleteClicked() {
@@ -111,12 +118,13 @@ export default class Edit extends React.Component {
 
   handleEditSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes, entryId, website, edited } = this.state;
+    const { photoUrl, title, notes, entryId, website, tags, edited } = this.state;
     const entry = {
       photoUrl,
       title,
       notes,
-      website
+      website,
+      tags
     };
     const req = {
       method: 'PUT',
@@ -140,7 +148,7 @@ export default class Edit extends React.Component {
   }
 
   renderForm() {
-    const { photoUrl, title, notes, website } = this.state;
+    const { photoUrl, title, notes, website, tags } = this.state;
     return (
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
@@ -169,6 +177,12 @@ export default class Edit extends React.Component {
                   Website
                 </div>
                 <input required className="input col-full" type="text" value={website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+              </div>
+              <div className="box">
+                <div className="titles">
+                  Tags
+                </div>
+                <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} />
               </div>
             </div>
           </div>

@@ -29,12 +29,9 @@ body {
   text-decoration: none;
   color: #f7fbfc;
   font-family: 'Barlow', sans-serif;
-  margin: auto;
+  margin: 0 auto;
 }
 
-.navbar-title {
-  margin-bottom: 0.5rem;
-}
 .row {
   display: flex;
   flex-wrap: wrap;
