@@ -95,6 +95,7 @@ export default class Results extends React.Component {
             const notes = entry.notes;
             const entryId = entry.entryId;
             const website = entry.website;
+            const tags = entry.tags;
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -115,6 +116,9 @@ export default class Results extends React.Component {
                     </div>
                     <div className="row">
                       <p>{notes}</p>
+                    </div>
+                    <div className="row">
+                      <div>{tags}</div>
                     </div>
                   </div>
 
