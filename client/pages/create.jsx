@@ -7,7 +7,8 @@ export default class Create extends React.Component {
       photoUrl: '',
       title: '',
       notes: '',
-      website: ''
+      website: '',
+      tags: ''
     };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
@@ -33,12 +34,17 @@ export default class Create extends React.Component {
     this.setState({ website: event.target.value });
   }
 
+  handleTags(event) {
+    this.setState({ tags: event.target.value });
+  }
+
   handleCancel() {
     this.setState({
       photoUrl: '',
       title: '',
       notes: '',
-      website: ''
+      website: '',
+      tags: ''
     });
   }
 
@@ -103,6 +109,12 @@ export default class Create extends React.Component {
                     Website
                 </div>
                   <input required className="input col-full" type="text" value={this.state.website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+                </div>
+                <div className="box">
+                  <div className="titles">
+                    Tags
+                </div>
+                  <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} />
                 </div>
               </div>
             </div>
