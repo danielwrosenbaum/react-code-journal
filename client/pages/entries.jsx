@@ -7,13 +7,15 @@ export default class Entries extends React.Component {
     this.state = {
       result: null,
       isLoading: true,
-      editEntry: null
+      editEntry: null,
+      sortBy: 'newest'
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/codeJournal')
+    const { sortBy } = this.state;
+    fetch(`/api/codeJournal/${sortBy}`)
       .then(res => res.json())
       .then(result => {
         this.setState({

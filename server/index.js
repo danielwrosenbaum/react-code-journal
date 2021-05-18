@@ -9,11 +9,16 @@ const jsonMiddleware = express.json();
 app.use(staticMiddleware);
 app.use(jsonMiddleware);
 
-app.get('/api/codeJournal', (req, res, next) => {
+app.get('/api/codeJournal/:sortBy', (req, res, next) => {
+  const sortBy = req.params.sortBy;
+  let sqlSort;
+  if (sortBy === 'newest') {
+    sqlSort = 'entryId';
+  }
   const sql = `
   select *
     from "journal"
-    order by "entryId" DESC
+    order by "${sqlSort}" DESC
   `;
   db.query(sql)
     .then(result => {
