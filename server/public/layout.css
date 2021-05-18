@@ -42,7 +42,7 @@
     width: 2.5%;
   }
   .col-third {
-    width: calc(100% / 3)
+    width: 40%;
   }
   .col-quarter {
     width: 25%;

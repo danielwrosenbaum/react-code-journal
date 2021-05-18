@@ -2,7 +2,6 @@ import React from 'react';
 import Entries from './entries';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
-import Results from './results';
 
 export default class Edit extends React.Component {
   constructor(props) {

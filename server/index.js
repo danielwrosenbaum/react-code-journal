@@ -2,6 +2,8 @@ require('dotenv/config');
 const express = require('express');
 const db = require('./db');
 const staticMiddleware = require('./static-middleware');
+const errorMiddleware = require('./error-middleware');
+// const ClientError = require('./client-error');
 
 const app = express();
 const jsonMiddleware = express.json();
@@ -38,7 +40,6 @@ app.get('/api/codeJournal/sort/:sortBy', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('');
 app.get('/api/codeJournal/search/:query', (req, res, next) => {
   const searchQuery = req.params.query;
   const sql = `
@@ -126,6 +127,8 @@ app.delete('/api/codeJournal/:entryId', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+app.use(errorMiddleware);
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);

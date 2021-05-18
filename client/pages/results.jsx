@@ -9,7 +9,6 @@ export default class Results extends React.Component {
       route: parseRoute(window.location.hash),
       isLoading: true,
       currentPath: this.getParams(parseRoute(window.location.hash).params),
-      inputValue: this.props.value,
       query: this.props.value,
       result: null
     };
@@ -17,18 +16,23 @@ export default class Results extends React.Component {
   }
 
   componentDidMount() {
-    const { query, inputValue } = this.state;
+    const { query } = this.state;
     fetch(`/api/codeJournal/search/${query}`)
       .then(res => res.json())
       .then(
         result => {
           this.setState({
             isLoading: false,
-            query: inputValue,
+            query,
             result
           });
         }
-      );
+      )
+      .catch(error => {
+        this.setState({ isLoading: false });
+        console.error(error);
+
+      });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -43,7 +47,11 @@ export default class Results extends React.Component {
               result
             });
           }
-        );
+        )
+        .catch(error => {
+          this.setState({ isLoading: false });
+          console.error(error);
+        });
     }
   }
 
@@ -69,13 +77,17 @@ export default class Results extends React.Component {
   }
 
   renderResults() {
-    const { result, inputValue } = this.state;
-    if (!result) return null;
+    const { result, query } = this.state;
+    if (!result) {
+      return (
+        <h2>Invalid Search. Try Again</h2>
+      );
+    }
     const entries = result;
     const entryResults = (
       <div className="entries-container">
         {(result.length === 0) &&
-          <h2>{`No Results for "${inputValue}"`}</h2>}
+          <h3>{`No Results for "${query}". Please Try Again.`}</h3>}
         {
           entries.map((entry, index) => {
             const title = entry.title;
