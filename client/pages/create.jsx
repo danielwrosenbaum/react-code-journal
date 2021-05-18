@@ -50,12 +50,13 @@ export default class Create extends React.Component {
 
   handleSubmit() {
     event.preventDefault();
-    const { photoUrl, title, notes, website } = this.state;
+    const { photoUrl, title, notes, website, tags } = this.state;
     const entry = {
       photoUrl,
       title,
       notes,
-      website
+      website,
+      tags
     };
     const req = {
       method: 'POST',
@@ -71,6 +72,7 @@ export default class Create extends React.Component {
           photoUrl: '',
           title: '',
           notes: '',
+          tags: '',
           website: ''
         });
       });

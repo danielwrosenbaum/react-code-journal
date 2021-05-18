@@ -69,13 +69,13 @@ app.get('/api/codeJournal/edit/:entryId', (req, res, next) => {
 });
 
 app.post('/api/codeJournal', (req, res, next) => {
-  const { photoUrl, title, notes, website } = req.body;
+  const { photoUrl, title, notes, website, tags } = req.body;
   const sql = `
-  insert into "journal" ("title", "photoUrl", "notes", "website")
-  values ($1, $2, $3, $4)
+  insert into "journal" ("title", "photoUrl", "notes", "website", "tags")
+  values ($1, $2, $3, $4, $5)
   returning *
   `;
-  const params = [title, photoUrl, notes, website];
+  const params = [title, photoUrl, notes, website, tags];
   db.query(sql, params)
     .then(result => {
       res.status(201).json(result.rows[0]);
@@ -85,17 +85,18 @@ app.post('/api/codeJournal', (req, res, next) => {
 
 app.put('/api/codeJournal/:entryId', (req, res, next) => {
   const entryId = req.params.entryId;
-  const { photoUrl, title, notes, website } = req.body;
+  const { photoUrl, title, notes, website, tags } = req.body;
   const sql = `
   update "journal"
     set "photoUrl" = $1,
         "title" = $2,
         "notes" = $3,
-        "website" = $4
-    where "entryId" = $5
+        "website" = $4,
+        "tags" = $5
+    where "entryId" = $6
     returning *
   `;
-  const params = [photoUrl, title, notes, website, entryId];
+  const params = [photoUrl, title, notes, website, tags, entryId];
   db.query(sql, params)
     .then(result => {
       const [entry] = result.rows;
