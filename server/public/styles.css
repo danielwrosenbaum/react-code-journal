@@ -276,3 +276,16 @@ button:active {
 .fg--search input:focus + button .fa-search {
   color: red;
 }
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+}
+.select-label {
+  align-self: flex-end;
+}
+.select-box {
+  border-radius: 1rem;
+  width: 150px;
+  align-self: flex-end;
+}

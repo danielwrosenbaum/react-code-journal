@@ -86,6 +86,17 @@ export default class Entries extends React.Component {
     return (
       <div className="entry-page">
         <div className="one">Entries</div>
+        <div className="select-container">
+          <label className="select-label">Sort by</label>
+          <select className="select-box">
+            <option>Choose an option</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alpha">A-Z</option>
+            <option value="reverse-alpha">Z-A</option>
+          </select>
+        </div>
+
         {(isLoading) &&
           <Loader />}
 
