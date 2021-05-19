@@ -8,10 +8,12 @@ export default class Entries extends React.Component {
       result: null,
       isLoading: true,
       editEntry: null,
-      sortBy: 'newest'
+      sortBy: 'newest',
+      clickedTag: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
   }
 
   componentDidMount() {
@@ -46,19 +48,32 @@ export default class Entries extends React.Component {
     }
   }
 
-  handleClick(entry) {
-    event.preventDefault();
-    this.setState({ editEntry: entry });
-    const { editEntry } = this.state;
-    if (editEntry) {
-      const { entryId } = this.state.editEntry;
-      window.location.hash = `#edit?=${entryId}`;
-    }
+  handleClick(event) {
+    const entryId = event.target.id;
+    window.location.hash = `#edit?=${entryId}`;
+  }
 
+  handleTagClick(event) {
+    const tag = event.target.id;
+    this.setState({ clickedTag: event.target.id });
+    window.location.hash = `#results?tag=${tag}`;
   }
 
   handleChange() {
     this.setState({ sortBy: event.target.value });
+  }
+
+  renderTags(tags) {
+    const tagBox = (
+     <ul className="tag-list">
+       {tags.map((tag, index) => (
+         <li key={tag}>
+           <a id={tag} onClick={this.handleTagClick} >{`#${tag}`}</a>
+         </li>
+       ))}
+     </ul>
+    );
+    return tagBox;
   }
 
   render() {
@@ -67,7 +82,7 @@ export default class Entries extends React.Component {
     const entries = result;
     const entryResults = (
       <div className="entries-container">
-        {(result.length === 0) &&
+        {(result.length === 0 || !result) &&
           <h2>Nothing Here!</h2>}
         {
           entries.map((entry, index) => {
@@ -76,7 +91,8 @@ export default class Entries extends React.Component {
             const notes = entry.notes;
             const entryId = entry.entryId;
             const website = entry.website;
-            const tags = entry.tags;
+            const tags = this.renderTags(entry.tags);
+            // console.log(this.renderTags(entry.tags));
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -85,8 +101,8 @@ export default class Entries extends React.Component {
                   </div>
                   <div className="col-half info-container">
                     <div className="row">
-                      <div className="icon-container">
-                        <i id={entryId} className="edit-icon far fa-edit" onClick={() => this.handleClick(entry)}></i>
+                      <div className="icon-container" >
+                        <i id={entryId} onClick={this.handleClick} className="edit-icon far fa-edit" ></i>
                       </div>
                     </div>
                     <div className="row">

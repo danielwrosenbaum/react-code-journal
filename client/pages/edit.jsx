@@ -1,7 +1,7 @@
 import React from 'react';
-import Entries from './entries';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
+import Tags from '../components/tags';
 
 export default class Edit extends React.Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class Edit extends React.Component {
       notes: '',
       title: '',
       website: '',
-      tags: '',
+      tags: [],
       route: parseRoute(window.location.hash),
       entryId: null,
       isDeleteClicked: false,
@@ -29,6 +29,7 @@ export default class Edit extends React.Component {
     this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleTags = this.handleTags.bind(this);
+    this.handleChildTags = this.handleChildTags.bind(this);
   }
 
   componentDidMount() {
@@ -50,13 +51,17 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
-          tags: result.tags,
+          tags: [result.tags],
           isLoading: false
         });
       })
       .catch(error => {
         console.error(error);
       });
+  }
+
+  componentWillUnmount() {
+    this.setState({ deleted: true });
   }
 
   handleUrl(event) {
@@ -79,6 +84,11 @@ export default class Edit extends React.Component {
     this.setState({ tags: event.target.value });
   }
 
+  handleChildTags(data) {
+    this.setState({ tags: [...this.state.tags, data] });
+
+  }
+
   handleDeleteClicked() {
     this.setState({ isDeleteClicked: true });
   }
@@ -90,11 +100,13 @@ export default class Edit extends React.Component {
     };
     fetch(`/api/codeJournal/${entryId}`, req)
       .then(result => {
-        this.setState({
-          isDeleteClicked: false,
-          deleted: true
-        });
-        window.location.hash = '#entries';
+        if (result.status === 204) {
+          this.setState({
+            deleted: true,
+            isDeleteClicked: false
+          });
+        }
+        return result;
       })
       .catch(error => console.error(error));
   }
@@ -182,7 +194,8 @@ export default class Edit extends React.Component {
                 <div className="titles">
                   Tags
                 </div>
-                <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} />
+                {/* <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} /> */}
+                <Tags value={tags} parentMethod={this.handleChildTags} />
               </div>
             </div>
           </div>
@@ -208,10 +221,10 @@ export default class Edit extends React.Component {
 
   render() {
     const { edited, deleted, isLoading } = this.state;
-    if (edited) {
+    if (edited || deleted) {
       window.location.hash = '#entries';
+      return null;
     }
-    if (deleted) return <Entries />;
     return (
       <div className="edit-page">
         {(isLoading) &&

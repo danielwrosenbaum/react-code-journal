@@ -40,14 +40,26 @@ app.get('/api/codeJournal/sort/:sortBy', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/codeJournal/search/:query', (req, res, next) => {
-  const searchQuery = req.params.query;
-  const sql = `
+app.get('/api/codeJournal/searchField/:path/:term', (req, res, next) => {
+  const searchQuery = req.params.term;
+  const path = req.params.path;
+  let sql;
+  if (path === 'search') {
+    sql = `
   select *
     from "journal"
     where "title" iLIKE '%${searchQuery}%'
-    or "tags" iLike '%${searchQuery}%'
+   or "notes" iLike '%${searchQuery}%'
   `;
+  }
+  if (path === 'tag') {
+    sql = `
+    select *
+      from "journal"
+      where '${searchQuery}' = ANY(tags)
+    `;
+  }
+
   db.query(sql)
     .then(result => {
       res.json(result.rows);
@@ -123,7 +135,7 @@ app.delete('/api/codeJournal/:entryId', (req, res, next) => {
           error: `Cannot find book with ID of ${entryId}, please try again.`
         });
       } else {
-        res.status(204).json(entry);
+        res.sendStatus(204);
       }
     })
     .catch(err => next(err));

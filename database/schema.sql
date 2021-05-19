@@ -12,7 +12,7 @@ create table "public"."journal" (
   "photoUrl"            text,
   "notes"               text,
   "website"             text,
-  "tags"                text,
+  "tags"                text ARRAY,
   "createdAt"           timestamptz(6) not null default now(),
   primary key ("entryId")
 );

@@ -8,22 +8,36 @@ export default class Results extends React.Component {
     this.state = {
       route: parseRoute(window.location.hash),
       isLoading: true,
-      currentPath: this.getParams(parseRoute(window.location.hash).params),
+      searchTerm: this.getParams(parseRoute(window.location.hash).params),
       query: this.props.value,
-      result: null
+      firstParam: this.getFirstParam(parseRoute(window.location.hash).params),
+      result: null,
+      clickedTag: ''
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
   }
 
   componentDidMount() {
-    const { query } = this.state;
-    fetch(`/api/codeJournal/search/${query}`)
+    const { query, searchTerm, firstParam } = this.state;
+    let path;
+    let term;
+    if (firstParam[0] === 'search') {
+      term = query;
+      path = 'search';
+
+    } else if (firstParam[0] === 'tag') {
+      term = searchTerm;
+      path = 'tag';
+      this.setState({ clickedTag: term });
+    }
+    this.setState({ searchTerm: term });
+    fetch(`/api/codeJournal/searchField/${path}/${term}`)
       .then(res => res.json())
       .then(
         result => {
           this.setState({
             isLoading: false,
-            query,
             result
           });
         }
@@ -31,19 +45,36 @@ export default class Results extends React.Component {
       .catch(error => {
         this.setState({ isLoading: false });
         console.error(error);
-
       });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.value !== this.state.query) {
-      fetch(`/api/codeJournal/search/${this.props.value}`)
+    if (this.props.value.length > 0 && this.props.value !== this.state.query) {
+      fetch(`/api/codeJournal/searchField/search/${this.props.value}`)
         .then(res => res.json())
         .then(
           result => {
             this.setState({
               isLoading: false,
               query: this.props.value,
+              searchTerm: this.props.value,
+              result
+            });
+          }
+        )
+        .catch(error => {
+          this.setState({ isLoading: false });
+          console.error(error);
+        });
+    }
+    if (prevState.clickedTag !== this.state.clickedTag) {
+      fetch(`/api/codeJournal/searchField/tag/${this.state.clickedTag}`)
+        .then(res => res.json())
+        .then(
+          result => {
+            this.setState({
+              isLoading: false,
+              searchTerm: '#' + this.state.clickedTag,
               result
             });
           }
@@ -63,7 +94,20 @@ export default class Results extends React.Component {
       const { entryId } = this.state.editEntry;
       window.location.hash = `#edit?=${entryId}`;
     }
+  }
 
+  handleTagClick(event) {
+    const tag = event.target.id;
+    this.setState({ clickedTag: event.target.id });
+    window.location.hash = `#results?tag=${tag}`;
+  }
+
+  getFirstParam(searchTerms) {
+    const newArr = [];
+    for (const term of searchTerms) {
+      newArr.push(term[0]);
+    }
+    return newArr;
   }
 
   getParams(searchTerms) {
@@ -71,9 +115,24 @@ export default class Results extends React.Component {
     for (const term of searchTerms) {
       if (term[0] === 'search') {
         newArr.push(term[1]);
+      } else if (term[0] === 'tag') {
+        newArr.push(term[1]);
       }
     }
     return newArr;
+  }
+
+  renderTags(tags) {
+    const tagBox = (
+      <ul className="tag-list">
+        {tags.map((tag, index) => (
+          <li key={tag}>
+            <a onClick={this.handleTagClick} id={tag} >{`#${tag}`}</a>
+          </li>
+        ))}
+      </ul>
+    );
+    return tagBox;
   }
 
   renderResults() {
@@ -86,7 +145,7 @@ export default class Results extends React.Component {
     const entries = result;
     const entryResults = (
       <div className="entries-container">
-        {(result.length === 0) &&
+        {(result.length === 0 || !result) &&
           <h3>{`No Results for "${query}". Please Try Again.`}</h3>}
         {
           entries.map((entry, index) => {
@@ -95,7 +154,7 @@ export default class Results extends React.Component {
             const notes = entry.notes;
             const entryId = entry.entryId;
             const website = entry.website;
-            const tags = entry.tags;
+            const tags = this.renderTags(entry.tags);
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -133,10 +192,11 @@ export default class Results extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, searchTerm } = this.state;
+
     return (
       <div className="entry-page">
-        <div className="one">{`Results for "${this.props.value}"`}</div>
+        <div className="one">{`Results for "${searchTerm}"`}</div>
         {(isLoading) &&
           <Loader />}
         {this.renderResults()}

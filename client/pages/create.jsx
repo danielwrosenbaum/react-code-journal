@@ -1,4 +1,5 @@
 import React from 'react';
+import Tags from '../components/tags';
 
 export default class Create extends React.Component {
   constructor(props) {
@@ -8,7 +9,8 @@ export default class Create extends React.Component {
       title: '',
       notes: '',
       website: '',
-      tags: ''
+      tagFromChild: '',
+      tags: []
     };
     this.handleUrl = this.handleUrl.bind(this);
     this.handleNotes = this.handleNotes.bind(this);
@@ -17,6 +19,7 @@ export default class Create extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleWebsite = this.handleWebsite.bind(this);
     this.handleTags = this.handleTags.bind(this);
+    this.handleChildTags = this.handleChildTags.bind(this);
   }
 
   handleUrl(event) {
@@ -39,14 +42,21 @@ export default class Create extends React.Component {
     this.setState({ tags: event.target.value });
   }
 
+  handleChildTags(data) {
+    this.setState({ tags: [...this.state.tags, data] });
+
+  }
+
   handleCancel() {
+    event.preventDefault();
     this.setState({
       photoUrl: '',
       title: '',
       notes: '',
       website: '',
-      tags: ''
+      tags: []
     });
+    window.location.hash = 'entries';
   }
 
   handleSubmit() {
@@ -73,9 +83,10 @@ export default class Create extends React.Component {
           photoUrl: '',
           title: '',
           notes: '',
-          tags: '',
+          tags: [],
           website: ''
         });
+        window.location.hash = 'entries';
       });
 
   }
@@ -86,7 +97,7 @@ export default class Create extends React.Component {
     return (
       <div className="create-page">
         <div className="form-container">
-          <form onSubmit={this.handleSubmit}>
+          <form >
             <div className='row col-full'>
               <div className="one">New Entry</div>
             </div>
@@ -117,7 +128,8 @@ export default class Create extends React.Component {
                   <div className="titles">
                     Tags
                 </div>
-                  <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} />
+                  {/* <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} /> */}
+                  <Tags parentMethod={this.handleChildTags}/>
                 </div>
               </div>
             </div>
@@ -133,8 +145,8 @@ export default class Create extends React.Component {
             </div>
             <div className="row">
               <div className="button-container col-full">
-                <button className="cancel-button" onClick={this.handleCancel}>Cancel</button>
-                <button className="save-button" type="submit" >Save</button>
+                <button type="button" className="cancel-button" onClick={this.handleCancel}>Cancel</button>
+                <button className="save-button" type="button" onClick={this.handleSubmit}>Save</button>
               </div>
             </div>
           </form>
