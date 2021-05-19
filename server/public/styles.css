@@ -301,8 +301,13 @@ button:active {
   color:#f7fbfc;
   display: flex;
   list-style: none;
-  margin-right: 0.25rem;
+  margin: 0.1rem;
   padding: 0.25rem 0.5rem;
+}
+.tag-list li:active {
+  transform: translateY(3px);
+  /* flex-grow: 1; */
+  background-color: red;
 }
 
 .tag-list li button {
@@ -320,7 +325,6 @@ button:active {
   line-height: 0%;
   margin-left: 0.75rem;
   padding: 0;
-  /* transform: rotate(45deg); */
   width: 1.5rem;
 }
 
