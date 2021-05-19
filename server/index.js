@@ -43,7 +43,6 @@ app.get('/api/codeJournal/sort/:sortBy', (req, res, next) => {
 app.get('/api/codeJournal/:path/:term', (req, res, next) => {
   const searchQuery = req.params.term;
   const path = req.params.path;
-  console.log(searchQuery, path);
   let sql;
   if (path === 'search') {
     sql = `
@@ -63,7 +62,6 @@ app.get('/api/codeJournal/:path/:term', (req, res, next) => {
 
   db.query(sql)
     .then(result => {
-      console.log(result.rows);
       res.json(result.rows);
     })
     .catch(err => next(err));

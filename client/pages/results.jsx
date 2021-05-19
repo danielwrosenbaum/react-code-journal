@@ -8,18 +8,18 @@ export default class Results extends React.Component {
     this.state = {
       route: parseRoute(window.location.hash),
       isLoading: true,
-      currentPath: this.getParams(parseRoute(window.location.hash).params),
+      searchTerm: this.getParams(parseRoute(window.location.hash).params),
       query: this.props.value,
       firstParam: this.getFirstParam(parseRoute(window.location.hash).params),
       result: null,
-      searchTerm: ''
+      clickedTag: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
   }
 
   componentDidMount() {
-    const { query, currentPath, firstParam } = this.state;
+    const { query, searchTerm, firstParam } = this.state;
     let path;
     let term;
     if (firstParam[0] === 'search') {
@@ -27,8 +27,9 @@ export default class Results extends React.Component {
       path = 'search';
 
     } else if (firstParam[0] === 'tag') {
-      term = currentPath[0];
+      term = searchTerm;
       path = 'tag';
+      this.setState({ clickedTag: term });
     }
     this.setState({ searchTerm: term });
     fetch(`/api/codeJournal/${path}/${term}`)
@@ -37,7 +38,6 @@ export default class Results extends React.Component {
         result => {
           this.setState({
             isLoading: false,
-            query,
             result
           });
         }
@@ -45,14 +45,11 @@ export default class Results extends React.Component {
       .catch(error => {
         this.setState({ isLoading: false });
         console.error(error);
-
       });
-    // }
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.value !== this.state.query) {
+    if (this.props.value.length > 0 && this.props.value !== this.state.query) {
       fetch(`/api/codeJournal/search/${this.props.value}`)
         .then(res => res.json())
         .then(
@@ -60,6 +57,24 @@ export default class Results extends React.Component {
             this.setState({
               isLoading: false,
               query: this.props.value,
+              searchTerm: this.props.value,
+              result
+            });
+          }
+        )
+        .catch(error => {
+          this.setState({ isLoading: false });
+          console.error(error);
+        });
+    }
+    if (prevState.clickedTag !== this.state.clickedTag) {
+      fetch(`/api/codeJournal/tag/${this.state.clickedTag}`)
+        .then(res => res.json())
+        .then(
+          result => {
+            this.setState({
+              isLoading: false,
+              searchTerm: '#' + this.state.clickedTag,
               result
             });
           }
@@ -79,11 +94,12 @@ export default class Results extends React.Component {
       const { entryId } = this.state.editEntry;
       window.location.hash = `#edit?=${entryId}`;
     }
-
   }
 
   handleTagClick(event) {
-    // console.log('event:', event.target.id);
+    const tag = event.target.id;
+    this.setState({ clickedTag: event.target.id });
+    window.location.hash = `#results?tag=${tag}`;
   }
 
   getFirstParam(searchTerms) {
@@ -111,7 +127,7 @@ export default class Results extends React.Component {
       <ul className="tag-list">
         {tags.map((tag, index) => (
           <li key={tag}>
-            <a onClick={this.handleTagClick} id={tag} href={`#results?tag=${tag}`}>{tag}</a>
+            <a onClick={this.handleTagClick} id={tag} >{`#${tag}`}</a>
           </li>
         ))}
       </ul>

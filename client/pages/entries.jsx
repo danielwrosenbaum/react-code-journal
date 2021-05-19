@@ -68,7 +68,7 @@ export default class Entries extends React.Component {
      <ul className="tag-list">
        {tags.map((tag, index) => (
          <li key={tag}>
-           <a id={tag} onClick={this.handleTagClick} >{tag}</a>
+           <a id={tag} onClick={this.handleTagClick} >{`#${tag}`}</a>
          </li>
        ))}
      </ul>
