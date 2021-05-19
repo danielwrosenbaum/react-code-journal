@@ -94,11 +94,11 @@ export default class Edit extends React.Component {
           isDeleteClicked: false,
           deleted: true
         });
-        if (deleted) {
-          window.location.hash = '#entries';
-        }
       })
       .catch(error => console.error(error));
+    if (deleted) {
+      window.location.hash = '#entries';
+    }
   }
 
   deleteModal() {
@@ -210,7 +210,7 @@ export default class Edit extends React.Component {
 
   render() {
     const { edited, deleted, isLoading } = this.state;
-    if (edited) {
+    if (edited || deleted) {
       window.location.hash = '#entries';
     }
     if (deleted) return <Entries />;
