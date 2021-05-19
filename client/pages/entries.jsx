@@ -55,6 +55,14 @@ export default class Entries extends React.Component {
     this.setState({ sortBy: event.target.value });
   }
 
+  renderTags(tags) {
+    // console.log(tags);
+    tags.map(tag => {
+      // console.log(tag);
+      return tag;
+    });
+  }
+
   render() {
     const { result, isLoading } = this.state;
     if (!result) return null;
@@ -71,6 +79,7 @@ export default class Entries extends React.Component {
             const entryId = entry.entryId;
             const website = entry.website;
             const tags = entry.tags;
+            // console.log(this.renderTags(tags));
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
