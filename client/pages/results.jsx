@@ -10,14 +10,28 @@ export default class Results extends React.Component {
       isLoading: true,
       currentPath: this.getParams(parseRoute(window.location.hash).params),
       query: this.props.value,
-      result: null
+      firstParam: this.getFirstParam(parseRoute(window.location.hash).params),
+      result: null,
+      searchTerm: ''
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
   }
 
   componentDidMount() {
-    const { query } = this.state;
-    fetch(`/api/codeJournal/search/${query}`)
+    const { query, currentPath, firstParam } = this.state;
+    let path;
+    let term;
+    if (firstParam[0] === 'search') {
+      term = query;
+      path = 'search';
+
+    } else if (firstParam[0] === 'tag') {
+      term = currentPath[0];
+      path = 'tag';
+    }
+    this.setState({ searchTerm: term });
+    fetch(`/api/codeJournal/${path}/${term}`)
       .then(res => res.json())
       .then(
         result => {
@@ -33,6 +47,8 @@ export default class Results extends React.Component {
         console.error(error);
 
       });
+    // }
+
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -66,14 +82,41 @@ export default class Results extends React.Component {
 
   }
 
+  handleTagClick(event) {
+    // console.log('event:', event.target.id);
+  }
+
+  getFirstParam(searchTerms) {
+    const newArr = [];
+    for (const term of searchTerms) {
+      newArr.push(term[0]);
+    }
+    return newArr;
+  }
+
   getParams(searchTerms) {
     const newArr = [];
     for (const term of searchTerms) {
       if (term[0] === 'search') {
         newArr.push(term[1]);
+      } else if (term[0] === 'tag') {
+        newArr.push(term[1]);
       }
     }
     return newArr;
+  }
+
+  renderTags(tags) {
+    const tagBox = (
+      <ul className="tag-list">
+        {tags.map((tag, index) => (
+          <li key={tag}>
+            <a onClick={this.handleTagClick} id={tag} href={`#results?tag=${tag}`}>{tag}</a>
+          </li>
+        ))}
+      </ul>
+    );
+    return tagBox;
   }
 
   renderResults() {
@@ -86,7 +129,7 @@ export default class Results extends React.Component {
     const entries = result;
     const entryResults = (
       <div className="entries-container">
-        {(result.length === 0) &&
+        {(result.length === 0 || !result) &&
           <h3>{`No Results for "${query}". Please Try Again.`}</h3>}
         {
           entries.map((entry, index) => {
@@ -95,7 +138,7 @@ export default class Results extends React.Component {
             const notes = entry.notes;
             const entryId = entry.entryId;
             const website = entry.website;
-            const tags = entry.tags;
+            const tags = this.renderTags(entry.tags);
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -133,10 +176,11 @@ export default class Results extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, searchTerm } = this.state;
+
     return (
       <div className="entry-page">
-        <div className="one">{`Results for "${this.props.value}"`}</div>
+        <div className="one">{`Results for "${searchTerm}"`}</div>
         {(isLoading) &&
           <Loader />}
         {this.renderResults()}

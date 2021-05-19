@@ -8,10 +8,12 @@ export default class Entries extends React.Component {
       result: null,
       isLoading: true,
       editEntry: null,
-      sortBy: 'newest'
+      sortBy: 'newest',
+      clickedTag: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +53,12 @@ export default class Entries extends React.Component {
     window.location.hash = `#edit?=${entryId}`;
   }
 
+  handleTagClick(event) {
+    const tag = event.target.id;
+    this.setState({ clickedTag: event.target.id });
+    window.location.hash = `#results?tag=${tag}`;
+  }
+
   handleChange() {
     this.setState({ sortBy: event.target.value });
   }
@@ -60,7 +68,7 @@ export default class Entries extends React.Component {
      <ul className="tag-list">
        {tags.map((tag, index) => (
          <li key={tag}>
-           {tag}
+           <a id={tag} onClick={this.handleTagClick} >{tag}</a>
          </li>
        ))}
      </ul>

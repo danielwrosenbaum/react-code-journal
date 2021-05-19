@@ -40,16 +40,30 @@ app.get('/api/codeJournal/sort/:sortBy', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/codeJournal/search/:query', (req, res, next) => {
-  const searchQuery = req.params.query;
-  const sql = `
+app.get('/api/codeJournal/:path/:term', (req, res, next) => {
+  const searchQuery = req.params.term;
+  const path = req.params.path;
+  console.log(searchQuery, path);
+  let sql;
+  if (path === 'search') {
+    sql = `
   select *
     from "journal"
     where "title" iLIKE '%${searchQuery}%'
-    or "tags" iLike '%${searchQuery}%'
+   or "notes" iLike '%${searchQuery}%'
   `;
+  }
+  if (path === 'tag') {
+    sql = `
+    select *
+      from "journal"
+      where '${searchQuery}' = ANY(tags)
+    `;
+  }
+
   db.query(sql)
     .then(result => {
+      console.log(result.rows);
       res.json(result.rows);
     })
     .catch(err => next(err));
