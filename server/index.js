@@ -123,7 +123,7 @@ app.delete('/api/codeJournal/:entryId', (req, res, next) => {
           error: `Cannot find book with ID of ${entryId}, please try again.`
         });
       } else {
-        res.status(204).json(entry);
+        res.sendStatus(204);
       }
     })
     .catch(err => next(err));

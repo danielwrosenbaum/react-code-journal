@@ -61,7 +61,7 @@ export default class Entries extends React.Component {
     const entries = result;
     const entryResults = (
       <div className="entries-container">
-        {(result.length === 0) &&
+        {(result.length === 0 || !result) &&
           <h2>Nothing Here!</h2>}
         {
           entries.map((entry, index) => {

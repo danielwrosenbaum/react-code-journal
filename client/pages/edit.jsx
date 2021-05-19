@@ -1,5 +1,4 @@
 import React from 'react';
-import Entries from './entries';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
 
@@ -59,6 +58,10 @@ export default class Edit extends React.Component {
       });
   }
 
+  componentWillUnmount() {
+    this.setState({ deleted: true });
+  }
+
   handleUrl(event) {
     this.setState({ photoUrl: event.target.value });
   }
@@ -84,21 +87,21 @@ export default class Edit extends React.Component {
   }
 
   handleDelete() {
-    const { entryId, deleted } = this.state;
+    const { entryId } = this.state;
     const req = {
       method: 'DELETE'
     };
     fetch(`/api/codeJournal/${entryId}`, req)
       .then(result => {
-        this.setState({
-          isDeleteClicked: false,
-          deleted: true
-        });
+        if (result.status === 204) {
+          this.setState({
+            deleted: true,
+            isDeleteClicked: false
+          });
+        }
+        return result;
       })
       .catch(error => console.error(error));
-    if (deleted) {
-      window.location.hash = '#entries';
-    }
   }
 
   deleteModal() {
@@ -212,8 +215,8 @@ export default class Edit extends React.Component {
     const { edited, deleted, isLoading } = this.state;
     if (edited || deleted) {
       window.location.hash = '#entries';
+      return null;
     }
-    if (deleted) return <Entries />;
     return (
       <div className="edit-page">
         {(isLoading) &&

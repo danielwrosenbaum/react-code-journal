@@ -284,6 +284,7 @@ button:active {
   width: 150px;
   height: 1.5rem;
   align-self: flex-end;
+  background-color: rgb(236, 235, 235);
 }
 
 .tag-list {
