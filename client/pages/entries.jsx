@@ -46,15 +46,9 @@ export default class Entries extends React.Component {
     }
   }
 
-  handleClick(entry) {
-    event.preventDefault();
-    this.setState({ editEntry: entry });
-    const { editEntry } = this.state;
-    if (editEntry) {
-      const { entryId } = this.state.editEntry;
-      window.location.hash = `#edit?=${entryId}`;
-    }
-
+  handleClick(event) {
+    const entryId = event.target.id;
+    window.location.hash = `#edit?=${entryId}`;
   }
 
   handleChange() {
@@ -77,8 +71,6 @@ export default class Entries extends React.Component {
             const entryId = entry.entryId;
             const website = entry.website;
             const tags = entry.tags;
-            const tagsArray = tags.split('#');
-            console.log(tagsArray);
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
@@ -87,8 +79,8 @@ export default class Entries extends React.Component {
                   </div>
                   <div className="col-half info-container">
                     <div className="row">
-                      <div className="icon-container">
-                        <i id={entryId} className="edit-icon far fa-edit" onClick={() => this.handleClick(entry)}></i>
+                      <div className="icon-container" >
+                        <i id={entryId} onClick={this.handleClick} className="edit-icon far fa-edit" ></i>
                       </div>
                     </div>
                     <div className="row">

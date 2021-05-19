@@ -61,9 +61,6 @@ body {
   flex-direction: column;
   margin: 0.5rem;
 }
-.form-container {
-  /* width: 100%; */
-}
 .icon-container {
   margin-bottom: 0.5rem;
   margin-left:auto;
@@ -288,20 +285,7 @@ button:active {
   height: 1.5rem;
   align-self: flex-end;
 }
-.input-tag {
-  background-color: #f7fbfc;
-  border: 1px solid #769fcd;
-  border-radius: 0.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0.25rem;
-}
 
-.tag-add input{
-  border: none;
-  width: 100%;
-  background-color: #f7fbfc;
-}
 .tag-list {
   display: inline-flex;
   flex-wrap: wrap;
@@ -316,7 +300,6 @@ button:active {
   color:#f7fbfc;
   display: flex;
   list-style: none;
-  /* margin-bottom: 0.5rem; */
   margin-right: 0.25rem;
   padding: 0.25rem 0.5rem;
 }

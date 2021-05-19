@@ -84,7 +84,7 @@ export default class Edit extends React.Component {
   }
 
   handleDelete() {
-    const { entryId } = this.state;
+    const { entryId, deleted } = this.state;
     const req = {
       method: 'DELETE'
     };
@@ -94,7 +94,9 @@ export default class Edit extends React.Component {
           isDeleteClicked: false,
           deleted: true
         });
-        window.location.hash = '#entries';
+        if (deleted) {
+          window.location.hash = '#entries';
+        }
       })
       .catch(error => console.error(error));
   }

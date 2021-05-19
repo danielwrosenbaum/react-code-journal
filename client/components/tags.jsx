@@ -17,6 +17,7 @@ export default class Tags extends React.Component {
         return;
       }
       this.setState({ tags: [...this.state.tags, value] });
+      this.props.parentMethod(value);
       this.tagInput.value = null;
     } else if (event.key === 'Backspace' && !value) {
       this.removeTags(this.state.tags.length - 1);
@@ -32,7 +33,8 @@ export default class Tags extends React.Component {
   render() {
     const { tags } = this.state;
     return (
-      <div className="input-tag">
+      <div className="input-tag" >
+        <input className="input col-full" type="text" onKeyDown={this.handleKeyDown} ref={c => { this.tagInput = c; }} />
         <ul className="tag-list">
           {tags.map((tag, index) => (
             <li key={tag}>
@@ -40,9 +42,7 @@ export default class Tags extends React.Component {
               <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
             </li>
           ))}
-          <li className="tag-add">
-            <input type="text" onKeyDown={this.handleKeyDown} ref={c => { this.tagInput = c; }} />
-          </li>
+
         </ul>
       </div>
     );
