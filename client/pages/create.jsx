@@ -53,9 +53,10 @@ export default class Create extends React.Component {
       photoUrl: '',
       title: '',
       notes: '',
-      website: ''
-      // tags: ''
+      website: '',
+      tags: []
     });
+    window.location.hash = 'entries';
   }
 
   handleSubmit() {

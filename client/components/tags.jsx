@@ -8,6 +8,7 @@ export default class Tags extends React.Component {
     };
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.removeTags = this.removeTags.bind(this);
+    this.cancelTags = this.cancelTags.bind(this);
   }
 
   handleKeyDown(event) {
@@ -28,6 +29,10 @@ export default class Tags extends React.Component {
     const newTags = [...this.state.tags];
     newTags.splice(index, 1);
     this.setState({ tags: newTags });
+  }
+
+  cancelTags() {
+    this.setState({ tags: [] });
   }
 
   render() {
