@@ -56,11 +56,16 @@ export default class Entries extends React.Component {
   }
 
   renderTags(tags) {
-    // console.log(tags);
-    tags.map(tag => {
-      // console.log(tag);
-      return tag;
-    });
+    const tagBox = (
+     <ul className="tag-list">
+       {tags.map((tag, index) => (
+         <li key={tag}>
+           {tag}
+         </li>
+       ))}
+     </ul>
+    );
+    return tagBox;
   }
 
   render() {
@@ -78,8 +83,8 @@ export default class Entries extends React.Component {
             const notes = entry.notes;
             const entryId = entry.entryId;
             const website = entry.website;
-            const tags = entry.tags;
-            // console.log(this.renderTags(tags));
+            const tags = this.renderTags(entry.tags);
+            // console.log(this.renderTags(entry.tags));
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>
