@@ -77,6 +77,8 @@ export default class Entries extends React.Component {
             const entryId = entry.entryId;
             const website = entry.website;
             const tags = entry.tags;
+            const tagsArray = tags.split('#');
+            console.log(tagsArray);
             return (
               <div key={index} id={entryId} className="entry-card">
                 <div className='row'>

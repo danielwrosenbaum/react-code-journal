@@ -1,4 +1,5 @@
 import React from 'react';
+import Tags from '../components/tags';
 
 export default class Create extends React.Component {
   constructor(props) {
@@ -118,6 +119,7 @@ export default class Create extends React.Component {
                     Tags
                 </div>
                   <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} />
+                  <Tags />
                 </div>
               </div>
             </div>

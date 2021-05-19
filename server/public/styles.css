@@ -288,3 +288,60 @@ button:active {
   height: 1.5rem;
   align-self: flex-end;
 }
+.input-tag {
+  background-color: #f7fbfc;
+  border: 1px solid #769fcd;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.25rem;
+}
+
+.tag-add input{
+  border: none;
+  width: 100%;
+  background-color: #f7fbfc;
+}
+.tag-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.tag-list li {
+  align-items: center;
+  background-color: #769fcd;
+  border-radius: 0.25rem;
+  color:#f7fbfc;
+  display: flex;
+  list-style: none;
+  /* margin-bottom: 0.5rem; */
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.tag-list li button {
+  align-items: center;
+  appearance: none;
+  background-color: #d6e6f2;
+  border: none;
+  border-radius: 50%;
+  color: #f7fbfc;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 1.25rem;
+  justify-content: center;
+  line-height: 0%;
+  margin-left: 0.75rem;
+  padding: 0;
+  /* transform: rotate(45deg); */
+  width: 1.5rem;
+}
+
+.tag-list li.tag-add {
+  background: none;
+  flex-grow: 1;
+  padding: 1;
+}
