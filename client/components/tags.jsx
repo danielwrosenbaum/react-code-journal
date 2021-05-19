@@ -13,6 +13,7 @@ export default class Tags extends React.Component {
 
   handleKeyDown(event) {
     const value = event.target.value;
+
     if (event.key === 'Enter' && value) {
       if (this.state.tags.find(tag => tag.toLowerCase() === value.toLowerCase())) {
         return;

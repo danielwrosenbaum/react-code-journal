@@ -32,7 +32,7 @@ export default class Results extends React.Component {
       this.setState({ clickedTag: term });
     }
     this.setState({ searchTerm: term });
-    fetch(`/api/codeJournal/${path}/${term}`)
+    fetch(`/api/codeJournal/searchField/${path}/${term}`)
       .then(res => res.json())
       .then(
         result => {
@@ -50,7 +50,7 @@ export default class Results extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.value.length > 0 && this.props.value !== this.state.query) {
-      fetch(`/api/codeJournal/search/${this.props.value}`)
+      fetch(`/api/codeJournal/searchField/search/${this.props.value}`)
         .then(res => res.json())
         .then(
           result => {
@@ -68,7 +68,7 @@ export default class Results extends React.Component {
         });
     }
     if (prevState.clickedTag !== this.state.clickedTag) {
-      fetch(`/api/codeJournal/tag/${this.state.clickedTag}`)
+      fetch(`/api/codeJournal/searchField/tag/${this.state.clickedTag}`)
         .then(res => res.json())
         .then(
           result => {

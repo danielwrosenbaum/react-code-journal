@@ -1,6 +1,7 @@
 import React from 'react';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
+import Tags from '../components/tags';
 
 export default class Edit extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class Edit extends React.Component {
       notes: '',
       title: '',
       website: '',
-      tags: '',
+      tags: [],
       route: parseRoute(window.location.hash),
       entryId: null,
       isDeleteClicked: false,
@@ -28,6 +29,7 @@ export default class Edit extends React.Component {
     this.handleDeleteClicked = this.handleDeleteClicked.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleTags = this.handleTags.bind(this);
+    this.handleChildTags = this.handleChildTags.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +51,7 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
-          tags: result.tags,
+          tags: [result.tags],
           isLoading: false
         });
       })
@@ -80,6 +82,11 @@ export default class Edit extends React.Component {
 
   handleTags(event) {
     this.setState({ tags: event.target.value });
+  }
+
+  handleChildTags(data) {
+    this.setState({ tags: [...this.state.tags, data] });
+
   }
 
   handleDeleteClicked() {
@@ -187,7 +194,8 @@ export default class Edit extends React.Component {
                 <div className="titles">
                   Tags
                 </div>
-                <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} />
+                {/* <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} /> */}
+                <Tags value={tags} parentMethod={this.handleChildTags} />
               </div>
             </div>
           </div>

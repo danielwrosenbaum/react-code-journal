@@ -40,7 +40,7 @@ app.get('/api/codeJournal/sort/:sortBy', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/codeJournal/:path/:term', (req, res, next) => {
+app.get('/api/codeJournal/searchField/:path/:term', (req, res, next) => {
   const searchQuery = req.params.term;
   const path = req.params.path;
   let sql;
