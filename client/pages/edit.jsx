@@ -1,7 +1,7 @@
 import React from 'react';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
-import Tags from '../components/tags';
+// import Tags from '../components/tags';
 
 export default class Edit extends React.Component {
   constructor(props) {
@@ -17,7 +17,8 @@ export default class Edit extends React.Component {
       isDeleteClicked: false,
       deleted: false,
       edited: false,
-      isLoading: true
+      isLoading: true,
+      tagEdited: false
 
     };
     this.handleUrl = this.handleUrl.bind(this);
@@ -30,6 +31,7 @@ export default class Edit extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleTags = this.handleTags.bind(this);
     this.handleChildTags = this.handleChildTags.bind(this);
+    this.removeTags = this.removeTags.bind(this);
   }
 
   componentDidMount() {
@@ -51,7 +53,7 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
-          tags: [result.tags],
+          tags: [...this.state.tags, result.tags],
           isLoading: false
         });
       })
@@ -62,6 +64,28 @@ export default class Edit extends React.Component {
 
   componentWillUnmount() {
     this.setState({ deleted: true });
+  }
+
+  componentDidUpdate(prevState, prevProps) {
+    if (this.state.tagEdited) {
+      const { tags, entryId } = this.state;
+      const tagArr = tags[0];
+      const updatedEntry = {
+        tagArr
+      };
+      const req = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedEntry)
+      };
+      fetch(`/api/codeJournal/edittags/${entryId}`, req)
+        .then(res => res.json())
+        .then(result => {
+          this.setState({ tagEdited: false });
+        });
+    }
   }
 
   handleUrl(event) {
@@ -159,8 +183,36 @@ export default class Edit extends React.Component {
     this.setState({ isDeleteClicked: false });
   }
 
+  removeTags(index) {
+    const newTags = [...this.state.tags];
+    newTags[0].splice(index, 1);
+    this.setState({ tags: newTags, tagEdited: true });
+  }
+
+  renderSavedTags() {
+    const { tags } = this.state;
+    if (tags.length === 0 || tags[0] === null) {
+      return null;
+    } else {
+      if (tags[0] !== null || tags[0].length !== 0) {
+        const renderedTags = (
+          <ul className="tag-list">
+            {tags[0].map((tag, index) => (
+              <li key={tag}>
+                {tag}
+                <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
+              </li>
+            ))}
+          </ul>
+        );
+        return renderedTags;
+      }
+    }
+
+  }
+
   renderForm() {
-    const { photoUrl, title, notes, website, tags } = this.state;
+    const { photoUrl, title, notes, website } = this.state;
     return (
       <div className="form-container">
         <form onSubmit={this.handleEditSubmit}>
@@ -194,8 +246,12 @@ export default class Edit extends React.Component {
                 <div className="titles">
                   Tags
                 </div>
+                <div className="input-tag">
+                  {this.renderSavedTags()}
+                </div>
+
                 {/* <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} /> */}
-                <Tags value={tags} parentMethod={this.handleChildTags} />
+                {/* <Tags value={tags} parentMethod={this.handleChildTags} /> */}
               </div>
             </div>
           </div>
