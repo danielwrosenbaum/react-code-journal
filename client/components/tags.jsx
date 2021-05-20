@@ -13,7 +13,6 @@ export default class Tags extends React.Component {
 
   handleKeyDown(event) {
     const value = event.target.value;
-
     if (event.key === 'Enter' && value) {
       if (this.state.tags.find(tag => tag.toLowerCase() === value.toLowerCase())) {
         return;
@@ -38,6 +37,7 @@ export default class Tags extends React.Component {
 
   render() {
     const { tags } = this.state;
+    console.log('props', this.props.value);
     return (
       <div className="input-tag" >
         <input className="input col-full" type="text" onKeyDown={this.handleKeyDown} ref={c => { this.tagInput = c; }} />

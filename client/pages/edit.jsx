@@ -1,7 +1,7 @@
 import React from 'react';
 import parseRoute from '../lib/parse-route';
 import Loader from '../components/loader';
-// import Tags from '../components/tags';
+import Tags from '../components/tags';
 
 export default class Edit extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ export default class Edit extends React.Component {
       deleted: false,
       edited: false,
       isLoading: true,
+      newTag: '',
       tagEdited: false
 
     };
@@ -66,25 +67,31 @@ export default class Edit extends React.Component {
     this.setState({ deleted: true });
   }
 
-  componentDidUpdate(prevState, prevProps) {
-    if (this.state.tagEdited) {
-      const { tags, entryId } = this.state;
-      const tagArr = tags[0];
-      const updatedEntry = {
-        tagArr
-      };
-      const req = {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedEntry)
-      };
-      fetch(`/api/codeJournal/edittags/${entryId}`, req)
-        .then(res => res.json())
-        .then(result => {
-          this.setState({ tagEdited: false });
-        });
+  // componentDidUpdate(prevState, prevProps) {
+  //   if (this.state.tagEdited) {
+  //     const { tags, entryId } = this.state;
+  //     const tagArr = tags[0];
+  //     const updatedEntry = {
+  //       tagArr
+  //     };
+  //     const req = {
+  //       method: 'PATCH',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(updatedEntry)
+  //     };
+  //     fetch(`/api/codeJournal/edittags/${entryId}`, req)
+  //       .then(res => res.json())
+  //       .then(result => {
+  //         this.setState({ tagEdited: false });
+  //       });
+  //   }
+  // }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.newTag !== this.state.newTag) {
+      this.state.tags[0].push(this.state.newTag);
     }
   }
 
@@ -109,7 +116,9 @@ export default class Edit extends React.Component {
   }
 
   handleChildTags(data) {
-    this.setState({ tags: [...this.state.tags, data] });
+    const { tags } = this.state.tags;
+
+    this.setState({ newTag: data });
 
   }
 
@@ -160,8 +169,9 @@ export default class Edit extends React.Component {
       title,
       notes,
       website,
-      tags
+      tags: tags[0]
     };
+    console.log(entry);
     const req = {
       method: 'PUT',
       headers: {
@@ -187,6 +197,7 @@ export default class Edit extends React.Component {
     const newTags = [...this.state.tags];
     newTags[0].splice(index, 1);
     this.setState({ tags: newTags, tagEdited: true });
+    console.log('newtags:', newTags, this.state.tags);
   }
 
   renderSavedTags() {
@@ -215,7 +226,7 @@ export default class Edit extends React.Component {
     const { photoUrl, title, notes, website } = this.state;
     return (
       <div className="form-container">
-        <form onSubmit={this.handleEditSubmit}>
+        <form >
           <div className='row col-full'>
             <div className="one">Edit Entry</div>
           </div>
@@ -247,6 +258,7 @@ export default class Edit extends React.Component {
                   Tags
                 </div>
                 <div className="input-tag">
+            <Tags value={this.state.tags} parentMethod={this.handleChildTags}/>
                   {this.renderSavedTags()}
                 </div>
 
@@ -266,7 +278,7 @@ export default class Edit extends React.Component {
           <div className="row">
             <div className="button-container col-full">
               <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
-              <button className="save-button" type="submit" >Save</button>
+              <button onClick={this.handleEditSubmit} className="save-button" type="button" >Save</button>
             </div>
           </div>
         </form>
