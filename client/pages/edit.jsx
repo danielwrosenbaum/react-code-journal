@@ -93,14 +93,17 @@ export default class Edit extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.newTag !== this.state.newTag) {
       const { tags, newTag } = this.state;
-      if (!tags[0].includes(newTag)) {
-        this.state.tags[0].push(this.state.newTag);
-      } else {
-        this.setState({ error: true });
-      }
+      if (tags[0]) {
 
+        if (!tags[0].includes(newTag)) {
+          this.state.tags[0].push(this.state.newTag);
+        } else {
+          this.setState({ error: true });
+        }
+      } else {
+        this.setState({ tags: [...this.state.tags, newTag] });
+      }
     }
-    console.log('hello');
   }
 
   handleUrl(event) {
@@ -123,14 +126,16 @@ export default class Edit extends React.Component {
     this.setState({ tags: event.target.value });
   }
 
-  handleChildTags(data) {
-    console.log(this.state.tags, data);
+  handleChildTags(data, index) {
     const { tags } = this.state;
-    if (tags[0].includes(data)) {
-      console.log('includes');
-      this.setState({ error: true });
+    if (data === 'delete') {
+      this.removeTags(this.state.tags[0].length - 1);
     } else {
-      this.setState({ newTag: data });
+      if (tags[0] && tags[0].includes(data)) {
+        this.setState({ error: true });
+      } else {
+        this.setState({ newTag: data });
+      }
     }
 
   }
@@ -272,9 +277,6 @@ export default class Edit extends React.Component {
             <Tags value={tags} parentMethod={this.handleChildTags}/>
                   {this.renderSavedTags()}
                 </div>
-
-                {/* <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} /> */}
-                {/* <Tags value={tags} parentMethod={this.handleChildTags} /> */}
               </div>
             </div>
           </div>

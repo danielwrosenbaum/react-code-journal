@@ -4,7 +4,9 @@ export default class Tags extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      tags: []
+      tags: [],
+      error: false,
+      removed: false
     };
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.removeTags = this.removeTags.bind(this);
@@ -13,23 +15,32 @@ export default class Tags extends React.Component {
 
   handleKeyDown(event) {
     const value = event.target.value;
+    const { removed } = this.state;
     if (event.key === 'Enter' && value) {
       if (this.state.tags.find(tag => tag.toLowerCase() === value.toLowerCase())) {
         return;
       }
-      console.log('tagggg:', this.props.value);
-      if (this.props.value) {
+      if (this.props.value && this.props.value[0]) {
+
         if (!this.props.value[0].includes(value)) {
           this.setState({ tags: [...this.state.tags, value] });
+          if (!removed) {
+            this.props.parentMethod(value);
+            this.tagInput.value = null;
+          } else {
+            this.tagInput.value = null;
+            this.props.parentMethod(null);
+          }
+
         } else {
           this.setState({ error: true });
         }
       } else {
         this.setState({ tags: [...this.state.tags, value] });
+        this.props.parentMethod(value, 0);
+        this.tagInput.value = null;
       }
 
-      this.props.parentMethod(value);
-      this.tagInput.value = null;
     } else if (event.key === 'Backspace' && !value) {
       this.removeTags(this.state.tags.length - 1);
     }
@@ -38,7 +49,8 @@ export default class Tags extends React.Component {
   removeTags(index) {
     const newTags = [...this.state.tags];
     newTags.splice(index, 1);
-    this.setState({ tags: newTags });
+    this.setState({ tags: newTags, removed: true });
+    this.props.parentMethod('delete', index);
   }
 
   cancelTags() {
