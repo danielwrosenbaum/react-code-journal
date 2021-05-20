@@ -17,7 +17,17 @@ export default class Tags extends React.Component {
       if (this.state.tags.find(tag => tag.toLowerCase() === value.toLowerCase())) {
         return;
       }
-      this.setState({ tags: [...this.state.tags, value] });
+      console.log('tagggg:', this.props.value);
+      if (this.props.value) {
+        if (!this.props.value[0].includes(value)) {
+          this.setState({ tags: [...this.state.tags, value] });
+        } else {
+          this.setState({ error: true });
+        }
+      } else {
+        this.setState({ tags: [...this.state.tags, value] });
+      }
+
       this.props.parentMethod(value);
       this.tagInput.value = null;
     } else if (event.key === 'Backspace' && !value) {

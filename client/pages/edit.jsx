@@ -19,6 +19,7 @@ export default class Edit extends React.Component {
       edited: false,
       isLoading: true,
       newTag: '',
+      error: false,
       tagEdited: false
 
     };
@@ -93,11 +94,13 @@ export default class Edit extends React.Component {
     if (prevState.newTag !== this.state.newTag) {
       const { tags, newTag } = this.state;
       if (!tags[0].includes(newTag)) {
-        console.log('no includes');
         this.state.tags[0].push(this.state.newTag);
+      } else {
+        this.setState({ error: true });
       }
 
     }
+    console.log('hello');
   }
 
   handleUrl(event) {
@@ -121,7 +124,14 @@ export default class Edit extends React.Component {
   }
 
   handleChildTags(data) {
-    this.setState({ newTag: data });
+    console.log(this.state.tags, data);
+    const { tags } = this.state;
+    if (tags[0].includes(data)) {
+      console.log('includes');
+      this.setState({ error: true });
+    } else {
+      this.setState({ newTag: data });
+    }
 
   }
 
@@ -224,7 +234,7 @@ export default class Edit extends React.Component {
   }
 
   renderForm() {
-    const { photoUrl, title, notes, website } = this.state;
+    const { photoUrl, title, notes, website, tags } = this.state;
     return (
       <div className="form-container">
         <form >
@@ -259,7 +269,7 @@ export default class Edit extends React.Component {
                   Tags
                 </div>
                 <div className="input-tag">
-            <Tags value={this.state.tags} parentMethod={this.handleChildTags}/>
+            <Tags value={tags} parentMethod={this.handleChildTags}/>
                   {this.renderSavedTags()}
                 </div>
 
