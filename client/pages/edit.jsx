@@ -206,7 +206,7 @@ export default class Edit extends React.Component {
           <ul className="tag-list">
             {tags[0].map((tag, index) => (
               <li key={tag}>
-                {tag}
+                {`#${tag}`}
                 <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
               </li>
             ))}

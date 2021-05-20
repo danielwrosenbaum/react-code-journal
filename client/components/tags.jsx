@@ -43,7 +43,7 @@ export default class Tags extends React.Component {
         <ul className="tag-list">
           {tags.map((tag, index) => (
             <li key={tag}>
-              {tag}
+              {`#${tag}`}
               <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
             </li>
           ))}
