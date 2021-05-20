@@ -116,8 +116,6 @@ export default class Edit extends React.Component {
   }
 
   handleChildTags(data) {
-    const { tags } = this.state.tags;
-
     this.setState({ newTag: data });
 
   }
@@ -171,7 +169,6 @@ export default class Edit extends React.Component {
       website,
       tags: tags[0]
     };
-    console.log(entry);
     const req = {
       method: 'PUT',
       headers: {
@@ -197,7 +194,6 @@ export default class Edit extends React.Component {
     const newTags = [...this.state.tags];
     newTags[0].splice(index, 1);
     this.setState({ tags: newTags, tagEdited: true });
-    console.log('newtags:', newTags, this.state.tags);
   }
 
   renderSavedTags() {

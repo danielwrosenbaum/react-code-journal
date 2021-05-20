@@ -37,7 +37,6 @@ export default class Tags extends React.Component {
 
   render() {
     const { tags } = this.state;
-    console.log('props', this.props.value);
     return (
       <div className="input-tag" >
         <input className="input col-full" type="text" onKeyDown={this.handleKeyDown} ref={c => { this.tagInput = c; }} />
