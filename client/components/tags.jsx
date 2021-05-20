@@ -23,8 +23,10 @@ export default class Tags extends React.Component {
       if (this.props.value && this.props.value[0]) {
 
         if (!this.props.value[0].includes(value)) {
-          this.setState({ tags: [...this.state.tags, value] });
+          console.log('here');
+
           if (!removed) {
+            this.setState({ tags: [...this.state.tags, value] });
             this.props.parentMethod(value);
             this.tagInput.value = null;
           } else {
@@ -33,9 +35,11 @@ export default class Tags extends React.Component {
           }
 
         } else {
+          console.log('no here');
           this.setState({ error: true });
         }
       } else {
+
         this.setState({ tags: [...this.state.tags, value] });
         this.props.parentMethod(value, 0);
         this.tagInput.value = null;

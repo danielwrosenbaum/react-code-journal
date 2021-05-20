@@ -94,6 +94,7 @@ export default class Edit extends React.Component {
     if (prevState.newTag !== this.state.newTag) {
       const { tags, newTag } = this.state;
       if (tags[0]) {
+        console.log('hereyta');
 
         if (!tags[0].includes(newTag)) {
           this.state.tags[0].push(this.state.newTag);
@@ -101,6 +102,7 @@ export default class Edit extends React.Component {
           this.setState({ error: true });
         }
       } else {
+        console.log('noya');
         this.setState({ tags: [...this.state.tags, newTag] });
       }
     }
@@ -134,7 +136,10 @@ export default class Edit extends React.Component {
       if (tags[0] && tags[0].includes(data)) {
         this.setState({ error: true });
       } else {
-        this.setState({ newTag: data });
+        console.log('this goin wrong', this.state.newTag, 'data:', data);
+        const arr = [...this.state.newTag];
+        arr.push(data);
+        this.setState({ newTag: arr });
       }
     }
 
