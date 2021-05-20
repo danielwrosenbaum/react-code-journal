@@ -128,7 +128,6 @@ export default class Create extends React.Component {
                   <div className="titles">
                     Tags
                 </div>
-                  {/* <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} /> */}
                   <Tags parentMethod={this.handleChildTags}/>
                 </div>
               </div>

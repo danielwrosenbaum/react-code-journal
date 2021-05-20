@@ -91,7 +91,12 @@ export default class Edit extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.newTag !== this.state.newTag) {
-      this.state.tags[0].push(this.state.newTag);
+      const { tags, newTag } = this.state;
+      if (!tags[0].includes(newTag)) {
+        console.log('no includes');
+        this.state.tags[0].push(this.state.newTag);
+      }
+
     }
   }
 
