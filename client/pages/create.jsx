@@ -42,7 +42,8 @@ export default class Create extends React.Component {
     this.setState({ tags: event.target.value });
   }
 
-  handleChildTags(data) {
+  handleChildTags(data, index) {
+    console.log('data', data, index);
     this.setState({ tags: [...this.state.tags, data] });
 
   }

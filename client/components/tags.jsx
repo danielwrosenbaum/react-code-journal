@@ -15,6 +15,7 @@ export default class Tags extends React.Component {
 
   handleKeyDown(event) {
     const value = event.target.value;
+    console.log('value', value);
     const { removed } = this.state;
     if (event.key === 'Enter' && value) {
       if (this.state.tags.find(tag => tag.toLowerCase() === value.toLowerCase())) {
@@ -31,7 +32,7 @@ export default class Tags extends React.Component {
           this.setState({ error: true });
         }
       } else {
-
+        console.log('there');
         this.setState({ tags: [...this.state.tags, value] });
         this.props.parentMethod(value, 0);
         this.tagInput.value = null;
@@ -46,7 +47,10 @@ export default class Tags extends React.Component {
     const newTags = [...this.state.tags];
     newTags.splice(index, 1);
     this.setState({ tags: newTags });
-    this.props.parentMethod('delete', index);
+    if (this.props.value) {
+      this.props.parentMethod('delete', index);
+    }
+
   }
 
   cancelTags() {
@@ -59,18 +63,27 @@ export default class Tags extends React.Component {
     const tagElement = (
       <ul className="tag-list">
         {
-        tags.map((tag, index) => {
-          if (!this.props.value.includes(tag)) {
-            return (
-              <li key={tag}>
-                {`#${tag}`}
-                <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
-              </li>
-            );
+          tags.map((tag, index) => {
+            if (this.props.value) {
+              if (!this.props.value.includes(tag)) {
+                return (
+                  <li key={tag}>
+                    {`#${tag}`}
+                    <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
+                  </li>
+                );
+              }
+            } else {
+              return (
+                <li key={tag}>
+                  {`#${tag}`}
+                  <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
+                </li>
+              );
+            }
+            return null;
           }
-          return null;
-        }
-        )}
+          )}
       </ul>
     );
     return (

@@ -141,9 +141,6 @@ export default class Edit extends React.Component {
       if (tags && tags.includes(data)) {
         this.setState({ error: true });
       } else {
-        // console.log('this goin wrong', this.state.newTag, 'data:', data);
-        // const arr = [...this.state.newTag];
-        // arr.push(data);
         this.setState({ newTag: data });
       }
     }
