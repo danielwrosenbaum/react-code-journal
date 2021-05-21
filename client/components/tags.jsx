@@ -20,20 +20,12 @@ export default class Tags extends React.Component {
       if (this.state.tags.find(tag => tag.toLowerCase() === value.toLowerCase())) {
         return;
       }
-      if (this.props.value && this.props.value[0]) {
-
-        if (!this.props.value[0].includes(value)) {
+      if (this.props.value) {
+        if (!this.props.value.includes(value)) {
           console.log('here');
-
-          if (!removed) {
-            this.setState({ tags: [...this.state.tags, value] });
-            this.props.parentMethod(value);
-            this.tagInput.value = null;
-          } else {
-            this.tagInput.value = null;
-            this.props.parentMethod(null);
-          }
-
+          this.setState({ tags: [...this.state.tags, value] });
+          this.props.parentMethod(value);
+          this.tagInput.value = null;
         } else {
           console.log('no here');
           this.setState({ error: true });
@@ -53,7 +45,7 @@ export default class Tags extends React.Component {
   removeTags(index) {
     const newTags = [...this.state.tags];
     newTags.splice(index, 1);
-    this.setState({ tags: newTags, removed: true });
+    this.setState({ tags: newTags });
     this.props.parentMethod('delete', index);
   }
 
@@ -63,18 +55,28 @@ export default class Tags extends React.Component {
 
   render() {
     const { tags } = this.state;
+    console.log('tags', tags);
+    const tagElement = (
+      <ul className="tag-list">
+        {
+        tags.map((tag, index) => {
+          if (!this.props.value.includes(tag)) {
+            return (
+              <li key={tag}>
+                {`#${tag}`}
+                <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
+              </li>
+            );
+          }
+          return null;
+        }
+        )}
+      </ul>
+    );
     return (
       <div className="input-tag" >
         <input className="input col-full" type="text" onKeyDown={this.handleKeyDown} ref={c => { this.tagInput = c; }} />
-        <ul className="tag-list">
-          {tags.map((tag, index) => (
-            <li key={tag}>
-              {`#${tag}`}
-              <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
-            </li>
-          ))}
-
-        </ul>
+        {tagElement}
       </div>
     );
   }

@@ -55,7 +55,8 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
-          tags: [...this.state.tags, result.tags],
+          // tags: [...this.state.tags, result.tags],
+          tags: result.tags,
           isLoading: false
         });
       })
@@ -91,20 +92,24 @@ export default class Edit extends React.Component {
   // }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.newTag !== this.state.newTag) {
-      const { tags, newTag } = this.state;
-      if (tags[0]) {
-        console.log('hereyta');
 
-        if (!tags[0].includes(newTag)) {
-          this.state.tags[0].push(this.state.newTag);
+    if (prevState.newTag !== this.state.newTag) {
+      console.log('yooo');
+      const { tags, newTag } = this.state;
+      if (newTag) {
+        const newerTag = newTag;
+        if (tags) {
+          if (!tags.includes(newTag) && newTag) {
+            this.state.tags.push(newerTag);
+          } else {
+            this.setState({ error: true });
+          }
         } else {
-          this.setState({ error: true });
+          this.setState({ tags: [...this.state.tags, newTag] });
         }
-      } else {
-        console.log('noya');
-        this.setState({ tags: [...this.state.tags, newTag] });
+
       }
+
     }
   }
 
@@ -131,15 +136,15 @@ export default class Edit extends React.Component {
   handleChildTags(data, index) {
     const { tags } = this.state;
     if (data === 'delete') {
-      this.removeTags(this.state.tags[0].length - 1);
+      this.removeTags(this.state.tags.length - 1);
     } else {
-      if (tags[0] && tags[0].includes(data)) {
+      if (tags && tags.includes(data)) {
         this.setState({ error: true });
       } else {
-        console.log('this goin wrong', this.state.newTag, 'data:', data);
-        const arr = [...this.state.newTag];
-        arr.push(data);
-        this.setState({ newTag: arr });
+        // console.log('this goin wrong', this.state.newTag, 'data:', data);
+        // const arr = [...this.state.newTag];
+        // arr.push(data);
+        this.setState({ newTag: data });
       }
     }
 
@@ -192,7 +197,7 @@ export default class Edit extends React.Component {
       title,
       notes,
       website,
-      tags: tags[0]
+      tags: tags
     };
     const req = {
       method: 'PUT',
@@ -217,19 +222,19 @@ export default class Edit extends React.Component {
 
   removeTags(index) {
     const newTags = [...this.state.tags];
-    newTags[0].splice(index, 1);
-    this.setState({ tags: newTags, tagEdited: true });
+    newTags.splice(index, 1);
+    this.setState({ tags: newTags, tagEdited: true, newTag: '' });
   }
 
   renderSavedTags() {
     const { tags } = this.state;
-    if (tags.length === 0 || tags[0] === null) {
+    if (tags.length === 0 || tags === null) {
       return null;
     } else {
-      if (tags[0] !== null || tags[0].length !== 0) {
+      if (tags !== null || tags.length !== 0) {
         const renderedTags = (
           <ul className="tag-list">
-            {tags[0].map((tag, index) => (
+            {tags.map((tag, index) => (
               <li key={tag}>
                 {`#${tag}`}
                 <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
