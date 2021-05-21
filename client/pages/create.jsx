@@ -43,9 +43,19 @@ export default class Create extends React.Component {
   }
 
   handleChildTags(data, index) {
-    console.log('data', data, index);
-    this.setState({ tags: [...this.state.tags, data] });
+    if (data === 'delete') {
 
+      this.removeTags(index);
+    } else {
+      this.setState({ tags: [...this.state.tags, data] });
+    }
+
+  }
+
+  removeTags(index) {
+    const newTags = [...this.state.tags];
+    newTags.splice(index, 1);
+    this.setState({ tags: newTags });
   }
 
   handleCancel() {

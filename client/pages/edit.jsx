@@ -55,7 +55,6 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
-          // tags: [...this.state.tags, result.tags],
           tags: result.tags,
           isLoading: false
         });
@@ -69,32 +68,8 @@ export default class Edit extends React.Component {
     this.setState({ deleted: true });
   }
 
-  // componentDidUpdate(prevState, prevProps) {
-  //   if (this.state.tagEdited) {
-  //     const { tags, entryId } = this.state;
-  //     const tagArr = tags[0];
-  //     const updatedEntry = {
-  //       tagArr
-  //     };
-  //     const req = {
-  //       method: 'PATCH',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(updatedEntry)
-  //     };
-  //     fetch(`/api/codeJournal/edittags/${entryId}`, req)
-  //       .then(res => res.json())
-  //       .then(result => {
-  //         this.setState({ tagEdited: false });
-  //       });
-  //   }
-  // }
-
   componentDidUpdate(prevProps, prevState) {
-
     if (prevState.newTag !== this.state.newTag) {
-      console.log('yooo');
       const { tags, newTag } = this.state;
       if (newTag) {
         const newerTag = newTag;
@@ -107,9 +82,7 @@ export default class Edit extends React.Component {
         } else {
           this.setState({ tags: [...this.state.tags, newTag] });
         }
-
       }
-
     }
   }
 
@@ -281,7 +254,7 @@ export default class Edit extends React.Component {
                   Tags
                 </div>
                 <div className="input-tag">
-            <Tags value={tags} parentMethod={this.handleChildTags}/>
+                  <Tags value={tags} parentMethod={this.handleChildTags} />
                   {this.renderSavedTags()}
                 </div>
               </div>
