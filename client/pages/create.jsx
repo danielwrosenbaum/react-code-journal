@@ -117,12 +117,7 @@ export default class Create extends React.Component {
                 <img className="pic" src={(photoUrl) || placeholder} alt="unknown" />
               </div>
               <div className="col-half info-container">
-                <div className="box">
-                  <div className="titles">
-                    Image Url
-                </div>
-                  <input required className="input col-full" value={this.state.photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
-                </div>
+
                 <div className="box">
                   <div className="titles">
                     Title
@@ -134,6 +129,12 @@ export default class Create extends React.Component {
                     Website
                 </div>
                   <input required className="input col-full" type="text" value={this.state.website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+                </div>
+                <div className="box">
+                  <div className="titles">
+                    Image Url
+                </div>
+                  <input required className="input col-full" value={this.state.photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
                 </div>
                 <div className="box">
                   <div className="titles">
