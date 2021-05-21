@@ -30,9 +30,9 @@ export default class Navbar extends React.Component {
         <div className="row">
           <div className="nav-container col-full">
             <div className="col-half">
-              <a className="navbar-title" href="#">
+              <div className="navbar-title">
                 <div className="one">CodeJournal</div>
-              </a>
+              </div>
             </div>
             <div className="navbar-under col-third">
               <a className="navbar-entries" href="#create">
