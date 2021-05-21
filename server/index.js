@@ -119,6 +119,24 @@ app.put('/api/codeJournal/:entryId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.patch('/api/codeJournal/edittags/:entryId', (req, res, next) => {
+  const entryId = req.params.entryId;
+  const { tagArr } = req.body;
+  const sql = `
+  update "journal"
+    set "tags" = $1
+    where "entryId" = $2
+    returning *
+   `;
+  const params = [tagArr, entryId];
+  db.query(sql, params)
+    .then(result => {
+      const [entry] = result.rows;
+      res.status(201).json(entry);
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/codeJournal/:entryId', (req, res, next) => {
   const entryId = req.params.entryId;
   const sql = `

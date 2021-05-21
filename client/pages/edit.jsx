@@ -17,7 +17,10 @@ export default class Edit extends React.Component {
       isDeleteClicked: false,
       deleted: false,
       edited: false,
-      isLoading: true
+      isLoading: true,
+      newTag: '',
+      error: false,
+      tagEdited: false
 
     };
     this.handleUrl = this.handleUrl.bind(this);
@@ -30,6 +33,7 @@ export default class Edit extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleTags = this.handleTags.bind(this);
     this.handleChildTags = this.handleChildTags.bind(this);
+    this.removeTags = this.removeTags.bind(this);
   }
 
   componentDidMount() {
@@ -51,7 +55,7 @@ export default class Edit extends React.Component {
           title: result.title,
           entryId: result.entryId,
           website: result.website,
-          tags: [result.tags],
+          tags: result.tags,
           isLoading: false
         });
       })
@@ -62,6 +66,24 @@ export default class Edit extends React.Component {
 
   componentWillUnmount() {
     this.setState({ deleted: true });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.newTag !== this.state.newTag) {
+      const { tags, newTag } = this.state;
+      if (newTag) {
+        const newerTag = newTag;
+        if (tags) {
+          if (!tags.includes(newTag) && newTag) {
+            this.state.tags.push(newerTag);
+          } else {
+            this.setState({ error: true });
+          }
+        } else {
+          this.setState({ tags: [...this.state.tags, newTag] });
+        }
+      }
+    }
   }
 
   handleUrl(event) {
@@ -84,8 +106,17 @@ export default class Edit extends React.Component {
     this.setState({ tags: event.target.value });
   }
 
-  handleChildTags(data) {
-    this.setState({ tags: [...this.state.tags, data] });
+  handleChildTags(data, index) {
+    const { tags } = this.state;
+    if (data === 'delete') {
+      this.removeTags(this.state.tags.length - 1);
+    } else {
+      if (tags && tags.includes(data)) {
+        this.setState({ error: true });
+      } else {
+        this.setState({ newTag: data });
+      }
+    }
 
   }
 
@@ -136,7 +167,7 @@ export default class Edit extends React.Component {
       title,
       notes,
       website,
-      tags
+      tags: tags
     };
     const req = {
       method: 'PUT',
@@ -159,11 +190,39 @@ export default class Edit extends React.Component {
     this.setState({ isDeleteClicked: false });
   }
 
+  removeTags(index) {
+    const newTags = [...this.state.tags];
+    newTags.splice(index, 1);
+    this.setState({ tags: newTags, tagEdited: true, newTag: '' });
+  }
+
+  renderSavedTags() {
+    const { tags } = this.state;
+    if (tags.length === 0 || tags === null) {
+      return null;
+    } else {
+      if (tags !== null || tags.length !== 0) {
+        const renderedTags = (
+          <ul className="tag-list">
+            {tags.map((tag, index) => (
+              <li key={tag}>
+                {`#${tag}`}
+                <button type="button" onClick={() => { this.removeTags(index); }}><i className="fas fa-times"></i></button>
+              </li>
+            ))}
+          </ul>
+        );
+        return renderedTags;
+      }
+    }
+
+  }
+
   renderForm() {
     const { photoUrl, title, notes, website, tags } = this.state;
     return (
       <div className="form-container">
-        <form onSubmit={this.handleEditSubmit}>
+        <form >
           <div className='row col-full'>
             <div className="one">Edit Entry</div>
           </div>
@@ -194,8 +253,10 @@ export default class Edit extends React.Component {
                 <div className="titles">
                   Tags
                 </div>
-                {/* <input required className="input col-full" type="text" value={tags} placeholder="add tags" onChange={this.handleTags} /> */}
-                <Tags value={tags} parentMethod={this.handleChildTags} />
+                <div className="input-tag">
+                  <Tags value={tags} parentMethod={this.handleChildTags} />
+                  {this.renderSavedTags()}
+                </div>
               </div>
             </div>
           </div>
@@ -210,7 +271,7 @@ export default class Edit extends React.Component {
           <div className="row">
             <div className="button-container col-full">
               <button className="delete-button" type="button" onClick={this.handleDeleteClicked}>Delete Entry</button>
-              <button className="save-button" type="submit" >Save</button>
+              <button onClick={this.handleEditSubmit} className="save-button" type="button" >Save</button>
             </div>
           </div>
         </form>

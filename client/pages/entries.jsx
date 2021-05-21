@@ -64,6 +64,9 @@ export default class Entries extends React.Component {
   }
 
   renderTags(tags) {
+    if (!tags) {
+      return null;
+    }
     const tagBox = (
      <ul className="tag-list">
        {tags.map((tag, index) => (

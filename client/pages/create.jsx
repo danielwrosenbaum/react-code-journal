@@ -42,9 +42,20 @@ export default class Create extends React.Component {
     this.setState({ tags: event.target.value });
   }
 
-  handleChildTags(data) {
-    this.setState({ tags: [...this.state.tags, data] });
+  handleChildTags(data, index) {
+    if (data === 'delete') {
 
+      this.removeTags(index);
+    } else {
+      this.setState({ tags: [...this.state.tags, data] });
+    }
+
+  }
+
+  removeTags(index) {
+    const newTags = [...this.state.tags];
+    newTags.splice(index, 1);
+    this.setState({ tags: newTags });
   }
 
   handleCancel() {
@@ -128,7 +139,6 @@ export default class Create extends React.Component {
                   <div className="titles">
                     Tags
                 </div>
-                  {/* <input required className="input col-full" type="text" value={this.state.tags} placeholder="add tags" onChange={this.handleTags} /> */}
                   <Tags parentMethod={this.handleChildTags}/>
                 </div>
               </div>
