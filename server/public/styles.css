@@ -158,6 +158,8 @@ justify-content: space-between;
 .edit-icon {
   color: #769fcd;
   }
+
+a:hover,
 .edit-icon:hover,
 button:hover,
 .input:hover,
