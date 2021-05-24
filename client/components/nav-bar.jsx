@@ -11,7 +11,6 @@ export default function Navbar() {
     }
     window.location.hash = 'results?search=' + searchValue;
     return setSearchValue('');
-
   }
 
   return (
