@@ -164,7 +164,6 @@ a:hover,
 button:hover,
 .input:hover,
 .notes:hover,
-.navbar-title:hover,
 .navbar-entries:hover {
   cursor: pointer;
 }
