@@ -231,12 +231,7 @@ export default class Edit extends React.Component {
               <img className="pic" src={photoUrl} alt={title} />
             </div>
             <div className="col-half info-container">
-              <div className="box">
-                <div className="titles">
-                  Image Url
-                </div>
-                <input required className="input col-full" value={photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
-              </div>
+
               <div className="box">
                 <div className="titles">
                   Title
@@ -248,6 +243,12 @@ export default class Edit extends React.Component {
                   Website
                 </div>
                 <input required className="input col-full" type="text" value={website} placeholder="http://example.com/" onChange={this.handleWebsite} />
+              </div>
+              <div className="box">
+                <div className="titles">
+                  Image Url
+                </div>
+                <input required className="input col-full" value={photoUrl} type="text" name="imageURL" placeholder="Image Url" onChange={this.handleUrl} />
               </div>
               <div className="box">
                 <div className="titles">

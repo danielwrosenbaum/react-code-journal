@@ -12,7 +12,7 @@ body {
   padding: 0.25rem;
 }
 .nav-container {
-  /* margin: 0 1rem; */
+  margin: 0 0.25rem;
   text-decoration: none;
   outline: none;
   height: 100%;
@@ -158,11 +158,12 @@ justify-content: space-between;
 .edit-icon {
   color: #769fcd;
   }
+
+a:hover,
 .edit-icon:hover,
 button:hover,
 .input:hover,
 .notes:hover,
-.navbar-title:hover,
 .navbar-entries:hover {
   cursor: pointer;
 }
