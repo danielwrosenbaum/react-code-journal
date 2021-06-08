@@ -1,5 +1,5 @@
 import React from 'react';
-import parseRoute from '../../Final-Project/client/lib/parse-route';
+import parseRoute from './lib/parse-route';
 import Navbar from './components/nav-bar';
 import PageContainer from './components/page-container';
 import Create from './pages/create';
