@@ -5,7 +5,8 @@ A full-stack, mobile-responsive application for people who want to keep track of
 
 <img src ="https://user-images.githubusercontent.com/74999873/119188058-fe248400-ba2e-11eb-8a39-d798603a9f86.png" width="500">
 
-
+## View it Live!
+[Link to Live App](https://react-code-journal.herokuapp.com/)
 ## Technologies Used:
 
 - React
