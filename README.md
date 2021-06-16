@@ -24,6 +24,9 @@ A full-stack, mobile-responsive application for people who want to keep track of
 3. User Can Edit an Entry
 4. User Can Delete an Entry
 5. User Can Search For Entries
+6. User Can Sort Entries
+7. User Can Add Tags To Entry
+8. User Can View All Entries With Selected Tags
 
 ## Examples
 
