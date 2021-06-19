@@ -7,7 +7,8 @@ body {
 }
 
 .navbar {
-  background: linear-gradient(-150deg, #d6e6f2 0%, #769fcd 100%);
+  /* background: radial-gradient( #d6e6f2 0%, #769fcd 25%); */
+  background-color: #769fcd;
   height: 100%;
   padding: 0.25rem;
 }
@@ -68,10 +69,14 @@ body {
 .entries-title {
   margin: 1rem;
   font-family: 'Barlow', sans-serif;
+}
 
+.form-container {
+  margin: 1rem;
 }
 .pic-container {
   margin: 0.5rem;
+  max-width: 600px;
 }
 
 .entries-container {
