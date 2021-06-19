@@ -42,7 +42,7 @@
     width: 2.5%;
   }
   .col-third {
-    width: 50%;
+    width: 40%;
   }
   .col-quarter {
     width: 25%;
@@ -69,5 +69,6 @@
 }
 .navbar-title {
   text-align: left;
+  margin-left: 1rem;
 }
 }

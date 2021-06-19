@@ -7,9 +7,10 @@ body {
 }
 
 .navbar {
-  background: linear-gradient(-150deg, #d6e6f2 0%, #769fcd 100%);
+  background-color: #769fcd;
   height: 100%;
   padding: 0.25rem;
+  border-bottom: 2px solid #4278b5;
 }
 .nav-container {
   margin: 0 0.25rem;
@@ -57,9 +58,9 @@ body {
 }
 
 .info-container {
-    display: flex;
+  display: flex;
   flex-direction: column;
-  margin: 0.5rem;
+  margin: 1rem;
 }
 .icon-container {
   margin-bottom: 0.5rem;
@@ -68,10 +69,14 @@ body {
 .entries-title {
   margin: 1rem;
   font-family: 'Barlow', sans-serif;
+}
 
+.form-container {
+  margin: 1rem;
 }
 .pic-container {
   margin: 0.5rem;
+  max-width: 600px;
 }
 
 .entries-container {
@@ -90,6 +95,7 @@ body {
   height: 100%;
   border-radius: 1rem;
   box-shadow: 0px 5px 8px #769fcd;
+  background-color: #f7fbfc;
 
 }
 
@@ -166,6 +172,9 @@ button:hover,
 .notes:hover,
 .navbar-entries:hover {
   cursor: pointer;
+}
+.navbar-entries:hover {
+  color: red;
 }
 .edit-icon:active,
 button:active {
